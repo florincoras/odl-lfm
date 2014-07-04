@@ -137,6 +137,11 @@
 				<artifactId>clustering.services</artifactId>
 				<version>0.5.1-SNAPSHOT</version>
 			</dependency>
+    		<dependency>
+	      		<groupId>org.opendaylight.controller</groupId>
+	      		<artifactId>threadpool-config-impl</artifactId>
+	      		<version>0.2.5-SNAPSHOT</version>
+    		</dependency>
 			<dependency>
 				<groupId>org.opendaylight.yangtools</groupId>
 				<artifactId>yang-binding</artifactId>
