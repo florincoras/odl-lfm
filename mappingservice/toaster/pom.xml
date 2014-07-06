@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.opendaylight.lispflowmapping</groupId>
@@ -17,10 +17,13 @@
 		<tag>HEAD</tag>
 	</scm>
 	<dependencies>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>config-api</artifactId>
+		</dependency>
    		<dependency>
       		<groupId>org.opendaylight.controller</groupId>
       		<artifactId>config-util</artifactId>
-      		<version>0.2.5-SNAPSHOT</version>
    		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.controller</groupId>
@@ -40,12 +43,17 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Bundle-Activator>org.opendaylight.lispflowmapping.mappingservice.toaster.Activator</Bundle-Activator>
-						<Private-Package>org.opendaylight.controller.config.util</Private-Package>
+						<Private-Package>
+							org.opendaylight.lispflowmapping.mappingservice.toaster.*, 
+							org.opendaylight.controller.config.util.*,
+						</Private-Package>
 						<Import-Package>
+							javax.management, 
+							org.opendaylight.controller.config.api.jmx,
+						    org.opendaylight.controller.config.api,
 						    com.google.common.net,
 							org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924,
 							org.opendaylight.controller.sal.core,
@@ -63,3 +71,4 @@
 		</plugins>
 	</build>
 </project>
+

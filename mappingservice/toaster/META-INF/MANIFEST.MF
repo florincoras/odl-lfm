@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1404420384207
+Bnd-LastModified: 1404640013498
 Build-Jdk: 1.7.0_60
 Built-By: florin
 Bundle-Activator: org.opendaylight.lispflowmapping.mappingservice.toaste
@@ -10,11 +10,13 @@ Bundle-SymbolicName: org.opendaylight.lispflowmapping.mappingservice.toa
  ster
 Bundle-Version: 1.1.11.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-Import-Package: com.google.common.net;version="[14.0,15)",org.apache.com
- mons.lang3.builder;version="[3.1,4)",org.apache.felix.dm;version="[3.0,
- 4)",org.eclipse.osgi.framework.console,org.opendaylight.controller.conf
- ig.util,org.opendaylight.controller.sal.core;version="[0.8,1)",org.open
- daylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100
- 924;version="[2010.9,2011)",org.osgi.framework;version="[1.7,2)",org.os
- gi.service.component;version="[1.2,2)",org.slf4j;version="[1.7,2)"
+Import-Package: com.google.common.net;version="[14.0,15)",javax.manageme
+ nt,org.apache.commons.lang3.builder;version="[3.1,4)",org.apache.felix.
+ dm;version="[3.0,4)",org.eclipse.osgi.framework.console,org.opendayligh
+ t.controller.config.api;version="[0.2,1)",org.opendaylight.controller.c
+ onfig.api.jmx;version="[0.2,1)",org.opendaylight.controller.sal.core;ve
+ rsion="[0.8,1)",org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yan
+ g.ietf.inet.types.rev100924;version="[2010.9,2011)",org.osgi.framework;
+ version="[1.7,2)",org.osgi.service.component;version="[1.2,2)",org.slf4
+ j;version="[1.7,2)"
 Tool: Bnd-1.50.0

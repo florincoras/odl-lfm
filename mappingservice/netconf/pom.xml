@@ -9,6 +9,7 @@
 	</parent>
 	<artifactId>mappingservice.netconf</artifactId>
 	<packaging>bundle</packaging>
+	<name>${project.artifactId}</name>
 	<scm>
 		<connection>scm:git:https://git.opendaylight.org/gerrit/p/lispflowmapping.git</connection>
 		<developerConnection>scm:git:ssh://git.opendaylight.org:29418/lispflowmapping.git</developerConnection>
@@ -48,11 +49,17 @@
       		<groupId>org.opendaylight.controller</groupId>
       		<artifactId>threadpool-config-impl</artifactId>
     	</dependency>
-    	<dependency>
-      		<groupId>org.opendaylight.controller</groupId>
-      		<artifactId>config-util</artifactId>
-      		<version>0.2.5-SNAPSHOT</version>
-   		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>threadpool-config-api</artifactId>
+			<version>0.2.5-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>config-manager</artifactId>
+			<version>0.2.5-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -62,13 +69,12 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Export-Package>
-						</Export-Package>
-						<Bundle-Activator>
-							org.opendaylight.lispflowmapping.mappingservice.netconf.LispDeviceNetconfConnector
-						</Bundle-Activator>
+						<Bundle-Activator>org.opendaylight.lispflowmapping.mappingservice.netconf.LispDeviceNetconfConnector</Bundle-Activator>
+						<Private-Package>
+							org.opendaylight.lispflowmapping.mappingservice.netconf.*,
+							org.opendaylight.controller.config.util.*,
+						</Private-Package>
 						<Import-Package>
-							org.opendaylight.controller.config.util,
 						  	org.opendaylight.yangtools.yang.data.impl,
 						  	org.opendaylight.yangtools.sal.binding.generator.impl,
 						    com.google.common.net,
@@ -81,18 +87,16 @@
 							org.slf4j,
 							org.eclipse.osgi.framework.console,
 							org.osgi.framework,
+							org.osgi.util.tracker,
 							org.opendaylight.controller.config.api,
 							org.opendaylight.controller.config.api.jmx,
-							org.opendaylight.controller.config.yang.threadpool.impl,
-							org.opendaylight.controller.config.yang.threadpool.impl.fixed,
 							org.opendaylight.controller.sal.binding.api,
-							org.opendaylight.controller.config.yang.md.sal.binding.impl,
 							org.opendaylight.controller.config.yang.md.sal.connector.netconf,
 							org.opendaylight.yangtools.yang.binding,
-							org.opendaylight.yangtools.yang.common
+							org.opendaylight.yangtools.yang.common,
+							org.opendaylight.controller.config.threadpool,
 						</Import-Package>
-						<Service-Component>
-						</Service-Component>
+						<Export-Package></Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1404419743630
+Bnd-LastModified: 1404640012692
 Build-Jdk: 1.7.0_60
 Built-By: florin
 Bundle-Activator: org.opendaylight.lispflowmapping.mappingservice.netcon
@@ -14,17 +14,15 @@ Import-Package: com.google.common.net;version="[14.0,15)",javax.manageme
  nt,org.apache.commons.lang3.builder;version="[3.1,4)",org.apache.felix.
  dm,org.eclipse.osgi.framework.console,org.opendaylight.controller.confi
  g.api;version="[0.2,1)",org.opendaylight.controller.config.api.jmx;vers
- ion="[0.2,1)",org.opendaylight.controller.config.util,org.opendaylight.
- controller.config.yang.md.sal.binding.impl,org.opendaylight.controller.
- config.yang.md.sal.connector.netconf;version="[1.1,2)",org.opendaylight
- .controller.config.yang.threadpool.impl,org.opendaylight.controller.con
- fig.yang.threadpool.impl.fixed,org.opendaylight.controller.sal.binding.
- api;version="[1.1,2)",org.opendaylight.controller.sal.core,org.opendayl
- ight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924;
- version="[2010.9,2011)",org.opendaylight.yangtools.sal.binding.generato
- r.impl;version="[0.6,1)",org.opendaylight.yangtools.yang.binding;versio
- n="[0.6,1)",org.opendaylight.yangtools.yang.common;version="[0.6,1)",or
- g.opendaylight.yangtools.yang.data.impl;version="[0.6,1)",org.osgi.fram
- ework;version="[1.7,2)",org.osgi.service.component;version="[1.2,2)",or
- g.slf4j;version="[1.7,2)"
+ ion="[0.2,1)",org.opendaylight.controller.config.threadpool;version="[0
+ .2,1)",org.opendaylight.controller.config.yang.md.sal.connector.netconf
+ ;version="[1.1,2)",org.opendaylight.controller.sal.binding.api;version=
+ "[1.1,2)",org.opendaylight.controller.sal.core,org.opendaylight.yang.ge
+ n.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924;version="[20
+ 10.9,2011)",org.opendaylight.yangtools.sal.binding.generator.impl;versi
+ on="[0.6,1)",org.opendaylight.yangtools.yang.binding;version="[0.6,1)",
+ org.opendaylight.yangtools.yang.common;version="[0.6,1)",org.opendaylig
+ ht.yangtools.yang.data.impl;version="[0.6,1)",org.osgi.framework;versio
+ n="[1.7,2)",org.osgi.service.component;version="[1.2,2)",org.osgi.util.
+ tracker;version="[1.5,2)",org.slf4j;version="[1.7,2)"
 Tool: Bnd-1.50.0
