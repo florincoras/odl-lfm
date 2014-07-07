@@ -7,7 +7,7 @@
 		<version>1.1.11-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
-	<artifactId>mappingservice.toaster</artifactId>
+	<artifactId>mappingservice.toaster-impl</artifactId>
 	<packaging>bundle</packaging>
 	<name>${project.artifactId}</name>
 	<scm>
@@ -21,6 +21,7 @@
 	   	<yang-jmx-generator.version>1.0.0-SNAPSHOT</yang-jmx-generator.version>
     	<yangtools.version>0.6.2-SNAPSHOT</yangtools.version>
     	<salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath>
+    	<jmxGeneratorPath>src/main/yang-gen-config</jmxGeneratorPath>
 	</properties>
 	<build>
 		<plugins>
@@ -28,30 +29,10 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<configuration>
-					<instructions>
-					<!-- 
-						<Bundle-Activator>org.opendaylight.lispflowmapping.mappingservice.toaster.Activator</Bundle-Activator>
-						<Private-Package>
-							org.opendaylight.lispflowmapping.mappingservice.toaster.*, 
-							org.opendaylight.controller.config.util.*,
-						</Private-Package>
-						<Import-Package>
-							javax.management, 
-							org.opendaylight.controller.config.api.jmx,
-						    org.opendaylight.controller.config.api,
-						    com.google.common.net,
-							org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924,
-							org.opendaylight.controller.sal.core,
-							org.apache.felix.dm,
-							org.apache.commons.lang3.builder,
-							org.osgi.service.component,
-							org.slf4j,
-							org.eclipse.osgi.framework.console,
-							org.osgi.framework,
-						</Import-Package>
-						<Export-Package></Export-Package>
-						 -->
-					</instructions>
+					<instructions> 
+						<Import-Package>*</Import-Package>
+						<Export-Package>org.opendaylight.lispflowmapping.mappingservice.yang.toaster_impl,</Export-Package>
+					</instructions> 
 				</configuration>
 			</plugin>
 			
@@ -70,6 +51,16 @@
 									<codeGeneratorClass>org.opendaylight.yangtools.maven.sal.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
 									<outputBaseDir>${salGeneratorPath}</outputBaseDir>
 								</generator>
+								<generator>
+									<codeGeneratorClass>
+										org.opendaylight.controller.config.yangjmxgenerator.plugin.JMXGenerator
+									</codeGeneratorClass>
+									<outputBaseDir>${jmxGeneratorPath}</outputBaseDir>
+									<additionalConfiguration>
+										<namespaceToPackage1>urn:opendaylight:params:xml:ns:yang:lispflowmapping==org.opendaylight.lispflowmapping.config.yang</namespaceToPackage1>
+										<namespaceToPackage2>urn:opendaylight:params:xml:ns:yang:controller==org.opendaylight.controller.config.yang</namespaceToPackage2>
+									</additionalConfiguration>
+								</generator>
 							</codeGenerators>
 							<inspectDependencies>true</inspectDependencies>
 						</configuration>
@@ -77,9 +68,14 @@
 				</executions>
 				<dependencies>
 					<dependency>
+						<groupId>org.opendaylight.controller</groupId>
+						<artifactId>yang-jmx-generator-plugin</artifactId>
+						<version>0.2.5-SNAPSHOT</version>
+					</dependency>
+					<dependency>
 						<groupId>org.opendaylight.yangtools</groupId>
 						<artifactId>maven-sal-api-gen-plugin</artifactId>
-						<version>${yangtools.version}</version>
+						<version>0.6.2-SNAPSHOT</version>
 						<type>jar</type>
 					</dependency>
 				</dependencies>
@@ -88,6 +84,11 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.opendaylight.lispflowmapping</groupId>
+			<artifactId>mappingservice.toaster</artifactId>
+			<version>1.1.11-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.yangtools</groupId>
 			<artifactId>yang-binding</artifactId>
@@ -100,6 +101,14 @@
 			<groupId>org.opendaylight.yangtools</groupId>
 			<artifactId>yang-common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.controller</groupId>
+			<artifactId>config-api</artifactId>
+		</dependency>
+		<dependency>
+		      <groupId>org.opendaylight.controller</groupId>
+		      <artifactId>sal-binding-config</artifactId>
+		      <version>1.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
-

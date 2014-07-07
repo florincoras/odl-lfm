@@ -1,4 +1,4 @@
-package org.opendaylight.lispflowmapping.mappingservice.netconf;
+package org.opendaylight.lispflowmapping.mappingservice.netconf.osgi;
 
 import java.lang.management.ManagementFactory;
 
