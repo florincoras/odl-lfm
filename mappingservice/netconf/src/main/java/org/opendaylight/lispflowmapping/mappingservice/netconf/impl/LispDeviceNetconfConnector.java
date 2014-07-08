@@ -49,6 +49,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
  
 	  
 	   public LispDeviceNetconfConnector() {
+		   LOG.info( "LISP DEVICE NETCONF CONNECTOR CONSTRUCTED" );
 		   executor = Executors.newFixedThreadPool(1);
 		   nconfConnector = new LispNetconfConnector();
 	   }
@@ -109,7 +110,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	                        RpcErrors.getRpcError( "", "in-use", null, ErrorSeverity.WARNING,
 	                                               "Connection already set", ErrorType.APPLICATION, null ) ) );
 	                return Futures.immediateFuture(result);
-	            }else {
+	            } else {
 	                // Notice that we are moving the actual call to another thread,
 	                // allowing this thread to return immediately.
 	                // The MD-SAL design encourages asynchronus programming. If the

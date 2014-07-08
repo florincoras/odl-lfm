@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1404773740035
+Bnd-LastModified: 1404799595246
 Build-Jdk: 1.7.0_60
 Built-By: florin
 Bundle-ManifestVersion: 2
@@ -22,14 +22,16 @@ Export-Package: org.opendaylight.lispflowmapping.mappingservice.netconf.
  controller.config.api,org.opendaylight.controller.config.yang.md.sal.bi
  nding,org.opendaylight.controller.sal.binding.api,org.opendaylight.cont
  roller.config.spi,org.opendaylight.controller.config.api.annotations,ja
- vax.management,org.slf4j,org.osgi.framework";version="1.1.11.SNAPSHOT",
- org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispfl
- owmapping.mappingservice.netconf.impl.rev140706;uses:="org.opendaylight
- .yangtools.yang.binding,com.google.common.collect,org.opendaylight.yang
- .gen.v1.urn.opendaylight.params.xml.ns.yang.controller.md.sal.binding.r
- ev131028,org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.ya
- ng.controller.config.rev130405,org.opendaylight.yangtools.yang.common";
- version="1.1.11.SNAPSHOT"
+ vax.management,org.slf4j,org.osgi.framework,org.opendaylight.lispflowma
+ pping.mappingservice.netconf.impl,org.opendaylight.controller.md.sal.bi
+ nding.api,org.opendaylight.yangtools.yang.binding";version="1.1.11.SNAP
+ SHOT",org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.
+ lispflowmapping.mappingservice.netconf.impl.rev140706;uses:="org.openda
+ ylight.yangtools.yang.binding,com.google.common.collect,org.opendayligh
+ t.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.md.sal.bin
+ ding.rev131028,org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml
+ .ns.yang.controller.config.rev130405,org.opendaylight.yangtools.yang.co
+ mmon";version="1.1.11.SNAPSHOT"
 Import-Package: com.google.common.collect;version="[14.0,15)",com.google
  .common.util.concurrent;version="[14.0,15)",javax.management,org.openda
  ylight.controller.config.api;version="[0.2,1)",org.opendaylight.control
