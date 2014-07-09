@@ -293,6 +293,12 @@
 	        	<artifactId>lispflowmapping-commons</artifactId>
 	        	<version>${lispflowmapping.version}</version>
 	        </dependency>
+	        
+	        <dependency>
+              <groupId>org.opendaylight.lispflowmapping</groupId>
+              <artifactId>mappingservice.netconf</artifactId>
+              <version>${lispflowmapping.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 
