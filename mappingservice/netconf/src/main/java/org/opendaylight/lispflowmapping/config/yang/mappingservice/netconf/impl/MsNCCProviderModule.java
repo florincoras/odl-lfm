@@ -1,20 +1,21 @@
-package org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf_impl;
+package org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl;
 
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
+import org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl.MsNCCProviderModule;
 import org.opendaylight.lispflowmapping.mappingservice.netconf.impl.LispDeviceNetconfConnector;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.mappingservice.netconf.rev140706.LfmNetconfConnectorService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.LfmNetconfConnectorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf_impl.AbstractMsNCCProviderModule {
+public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl.AbstractMsNCCProviderModule {
     private static final Logger log = LoggerFactory.getLogger(MsNCCProviderModule.class);
 
     public MsNCCProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
     }
 
-    public MsNCCProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf_impl.MsNCCProviderModule oldModule, java.lang.AutoCloseable oldInstance) {
+    public MsNCCProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl.MsNCCProviderModule oldModule, java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 
@@ -30,7 +31,7 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
         final LispDeviceNetconfConnector lnconfConnector = new LispDeviceNetconfConnector();
 
         // Register to md-sal
-        DataBroker dataBrokerService = (DataBroker) getDataBrokerDependency();
+        DataBroker dataBrokerService = getDataBrokerDependency();
         lnconfConnector.setDataProvider(dataBrokerService);
 
         final BindingAwareBroker.RpcRegistration<LfmNetconfConnectorService> rpcRegistration = getRpcRegistryDependency()

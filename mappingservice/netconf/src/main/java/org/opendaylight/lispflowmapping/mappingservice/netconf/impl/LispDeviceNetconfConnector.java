@@ -12,10 +12,10 @@ import java.util.concurrent.Future;
 import javax.management.InstanceAlreadyExistsException;
 
 import org.opendaylight.lispflowmapping.mappingservice.netconf.impl.LispNetconfConnector;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.mappingservice.netconf.rev140706.BuildConnectorInput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.mappingservice.netconf.rev140706.LfmNetconfConnectorService;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.mappingservice.netconf.rev140706.NcConnector;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.mappingservice.netconf.rev140706.NcConnectorBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.LfmNetconfConnectorService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnectorBuilder;
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcError;
 import org.opendaylight.yangtools.yang.common.RpcResult;
@@ -86,7 +86,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            try {
 	                tx.commit().get();
 	            } catch (InterruptedException | ExecutionException e) {
-	                LOG.warn("Failed to update toaster status, operational otherwise", e);
+	                LOG.warn("Failed to update connector status, operational otherwise", e);
 	            }
 	        } else {
 	            LOG.trace("No data provider configured, not updating status");
@@ -100,11 +100,15 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 //	    public Future<RpcResult<Void>> buildConnector(BuildConnectorInput input) {
 	    public Future<RpcResult<Void>> buildConnector(final BuildConnectorInput input) {
 	        LOG.info("buildConnector: " + input);
-
+	        
 	        synchronized (taskLock) {
+		        if (currentTask != null && currentTask.isDone()) {
+		        	currentTask = null;
+		        }
+		        
 	            if (currentTask != null) {
 	                // return an error since we are already toasting some toast.
-	                LOG.info( "Connector already built" );
+	                LOG.info( "Connector stuck" );
 
 	                RpcResult<Void> result = Rpcs.<Void> getRpcResult(false, null, Arrays.asList(
 	                        RpcErrors.getRpcError( "", "in-use", null, ErrorSeverity.WARNING,
@@ -120,7 +124,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	                currentTask = executor.submit(new MakeConnector(input));
 	            }
 	        }
-
+	        
 	        updateStatus();
 	        return currentTask;
 	    }
@@ -136,12 +140,13 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	        @Override
 	        public RpcResult<Void> call() {
+	        	LOG.debug("Called RPC \n");
 	            try {
-	            	nconfConnector.createNetconfConnector(req.getAddress().toString(), req.getPort().getValue(), req.getUsername(), req.getPassword());
+	            	nconfConnector.createNetconfConnector(req.getInstance(), req.getAddress(), req.getPort().getValue(), req.getUsername(), req.getPassword());
 	            } catch( InstanceAlreadyExistsException e ) {
 	                LOG.info( "Connection already exists!" );
 	            }
-
+	            
 	            synchronized (taskLock) {
 	                currentTask = null;
 	            }

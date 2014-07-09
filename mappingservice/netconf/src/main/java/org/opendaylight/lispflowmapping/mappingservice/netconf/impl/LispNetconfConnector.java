@@ -18,30 +18,35 @@ import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.
 import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924.PortNumber;
 import org.opendaylight.controller.config.yang.threadpool.impl.flexible.FlexibleThreadPoolModuleFactory;
 import org.opendaylight.controller.config.yang.config.netconf.client.dispatcher.NetconfClientDispatcherModuleFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LispNetconfConnector {
     private ConfigRegistryJMXClient configRegistryClient;
     
+	private static final Logger LOG = LoggerFactory.getLogger(LispNetconfConnector.class);
+
     private MBeanServer platformMBeanServer;
 	private NetconfConnectorModuleFactory factory;
+//	private Integer nodeNumber;
 	
 	public LispNetconfConnector() {
 		platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
-		takeNap(20000);
-		
+//		takeNap(1000);
 		configRegistryClient = new ConfigRegistryJMXClient(platformMBeanServer);
 		factory = new NetconfConnectorModuleFactory();
 		
+//		nodeNumber = 0;
 		System.out.println("REGISTRY AND FACTORY CONSTRUCTED");
 
 	}
 	
 	private void takeNap(Integer time) {
 		try {
-			System.out.println("GOING TO SLEEP " + time);
+			LOG.info("GOING TO SLEEP " + time);
 			Thread.sleep(time);
-			System.out.println("FINISHED SLEEPING THE " + time);
+			LOG.info("FINISHED SLEEPING THE " + time);
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -50,31 +55,36 @@ public class LispNetconfConnector {
 
 	}
 	
-	public void createNetconfConnector(String address, Integer port, String username, String password) throws InstanceAlreadyExistsException {
+	public void createNetconfConnector(String instanceName, Host host, Integer port, String username, String password) throws InstanceAlreadyExistsException {
 		
         ConfigTransactionJMXClient transaction = configRegistryClient.createTransaction();
         
         if (transaction == null) {
-        	System.out.println("TRANSACTION NOT INITIALIZED!");
+        	LOG.error("TRANSACTION NOT INITIALIZED!");
+        	return;
         }
         
-        String instanceName = address;
+//        String instanceName = "node" + nodeNumber;
         String module = factory.getImplementationName();
         ObjectName nameCreated = transaction.createModule(module, instanceName);
         NetconfConnectorModuleMXBean mxBean = transaction.newMXBeanProxy(nameCreated, NetconfConnectorModuleMXBean.class);
         
-        mxBean.setAddress(new Host(address.toCharArray()));
+        mxBean.setAddress(host);
         mxBean.setPassword(password);
         mxBean.setPort(new PortNumber(port));
         mxBean.setUsername(username);
         mxBean.setTcpOnly(false);
 
+        LOG.info("Solving dependencies");
         solveDependencies(transaction, mxBean);
         
+        LOG.info("Committing transaction");
         try {
         	transaction.commit();
+//        	nodeNumber++;
         } catch (Exception e) {
-        	
+            LOG.info("Transaction failed ", e.getStackTrace().toString());
+
         }
 	}
 	
