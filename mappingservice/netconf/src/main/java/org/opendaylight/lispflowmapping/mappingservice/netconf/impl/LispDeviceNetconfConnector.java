@@ -3,6 +3,7 @@ package org.opendaylight.lispflowmapping.mappingservice.netconf.impl;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -10,12 +11,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
 
 import org.opendaylight.lispflowmapping.mappingservice.netconf.impl.LispNetconfConnector;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.LfmNetconfConnectorService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnectorBuilder;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput;
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcError;
 import org.opendaylight.yangtools.yang.common.RpcResult;
@@ -46,7 +49,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	    // In this case we use the taskLock to provide synchronization for the current task.
 	    private volatile Future<RpcResult<Void>> currentTask;
 	    private final Object taskLock = new Object();
- 
 	  
 	   public LispDeviceNetconfConnector() {
 		   LOG.info( "LISP DEVICE NETCONF CONNECTOR CONSTRUCTED" );
@@ -106,12 +108,12 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 		        }
 		        
 	            if (currentTask != null) {
-	                // return an error since we are already toasting some toast.
-	                LOG.info( "Connector stuck" );
+	                // return an error since we are already doing some work.
+	                LOG.warn( "LISP NETCONF connector busy" );
 
 	                RpcResult<Void> result = Rpcs.<Void> getRpcResult(false, null, Arrays.asList(
 	                        RpcErrors.getRpcError( "", "in-use", null, ErrorSeverity.WARNING,
-	                                               "Connection already set", ErrorType.APPLICATION, null ) ) );
+	                                               "LISP NETCONF connector busy", ErrorType.APPLICATION, null ) ) );
 	                return Futures.immediateFuture(result);
 	            } else {
 	                // Notice that we are moving the actual call to another thread,
@@ -128,6 +130,29 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	        return currentTask;
 	    }
 	    
+	    @Override
+	    public Future<RpcResult<Void>> removeConnector(final RemoveConnectorInput input) {
+	    	synchronized (taskLock) {
+		        if (currentTask != null && currentTask.isDone()) {
+		        	currentTask = null;
+		        }
+		        
+		        if (currentTask != null) {
+		        	LOG.warn("LISP NETCONF connector busy");
+	                RpcResult<Void> result = Rpcs.<Void> getRpcResult(false, null, Arrays.asList(
+	                        RpcErrors.getRpcError( "", "in-use", null, ErrorSeverity.WARNING,
+	                                               "LISP NETCONF connector busy", ErrorType.APPLICATION, null ) ) );
+	                return Futures.immediateFuture(result);
+		        } else {
+		        	currentTask = executor.submit(new RemoveConnector(input));
+		        }
+		        
+	    	}
+	    	
+	    	
+	    	return currentTask;
+	    }
+	    
 	    
 	    private class MakeConnector implements Callable<RpcResult<Void>> {
 
@@ -139,11 +164,11 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	        @Override
 	        public RpcResult<Void> call() {
-	        	LOG.debug("Called RPC \n");
+	        	LOG.debug("Called Make connector RPC \n");
 	            try {
 	            	nconfConnector.createNetconfConnector(req.getInstance(), req.getAddress(), req.getPort().getValue(), req.getUsername(), req.getPassword());
 	            } catch( InstanceAlreadyExistsException e ) {
-	                LOG.info( "Connection already exists!" );
+	                LOG.info( "NETCONF connector {} already exists!", req.getInstance() );
 	            }
 	            
 	            synchronized (taskLock) {
@@ -152,7 +177,35 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	            updateStatus();
 
-	            LOG.debug("Connector built");
+	            LOG.debug("Connector {} built", req.getInstance());
+
+	            return Rpcs.<Void> getRpcResult(true, null, Collections.<RpcError> emptySet());
+	        }
+	    }
+	    
+	    private class RemoveConnector implements Callable<RpcResult<Void>> {
+	        final RemoveConnectorInput req;
+
+	        public RemoveConnector(final RemoveConnectorInput conn) {
+	            req = conn;
+	        }
+	        
+	        @Override
+	        public RpcResult<Void> call() {
+	        	LOG.debug("Called Remove connector RPC \n");
+	            try {
+	            	nconfConnector.removeNetconfConnector(req.getInstance());
+	            } catch( InstanceNotFoundException e ) {
+	                LOG.info( "NETCONF connector {} doesn't exists!", req.getInstance() );
+	            }
+	            
+	            synchronized (taskLock) {
+	                currentTask = null;
+	            }
+
+	            updateStatus();
+
+	            LOG.debug("Connector {} removed", req.getInstance());
 
 	            return Rpcs.<Void> getRpcResult(true, null, Collections.<RpcError> emptySet());
 	        }

@@ -14,8 +14,7 @@ public interface BuildConnectorInput
 
 
 
-    public static final QName QNAME = org.opendaylight.yangtools.yang.common.QName.create("urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf","2014-07-06","input")
-    ;
+    public static final QName QNAME = org.opendaylight.yangtools.yang.common.QName.create("urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf","2014-07-06","input");;
 
     /**
       Device address

@@ -55,4 +55,15 @@ module lfm-netconf-connector {
 		    }
     	}
     }  
+    
+    rpc remove-connector {
+    	description 
+    		"Removes a given netconf connector";
+    	input {
+    		leaf instance {
+    			type string;
+    			description "instance name";
+    		}
+    	}
+    }
 }

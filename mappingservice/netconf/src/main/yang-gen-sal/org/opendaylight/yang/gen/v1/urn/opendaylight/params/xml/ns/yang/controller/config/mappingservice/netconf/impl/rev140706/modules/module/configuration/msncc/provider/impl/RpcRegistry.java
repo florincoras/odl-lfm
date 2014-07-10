@@ -15,8 +15,7 @@ public interface RpcRegistry
 
 
 
-    public static final QName QNAME = org.opendaylight.yangtools.yang.common.QName.create("urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf:impl","2014-07-06","rpc-registry")
-    ;
+    public static final QName QNAME = org.opendaylight.yangtools.yang.common.QName.create("urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf:impl","2014-07-06","rpc-registry");;
 
 
 }

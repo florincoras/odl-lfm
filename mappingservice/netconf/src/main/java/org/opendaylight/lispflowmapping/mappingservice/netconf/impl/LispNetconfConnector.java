@@ -1,12 +1,16 @@
 package org.opendaylight.lispflowmapping.mappingservice.netconf.impl;
 
 import java.lang.management.ManagementFactory;
+import java.util.Hashtable;
 import java.util.Set;
 
 import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import org.opendaylight.controller.config.api.ConflictingVersionException;
+import org.opendaylight.controller.config.api.ValidationException;
 import org.opendaylight.controller.config.util.ConfigRegistryJMXClient;
 import org.opendaylight.controller.config.util.ConfigTransactionJMXClient;
 import org.opendaylight.controller.config.yang.md.sal.binding.impl.BindingBrokerImplModuleFactory;
@@ -28,6 +32,7 @@ public class LispNetconfConnector {
 
     private MBeanServer platformMBeanServer;
 	private NetconfConnectorModuleFactory factory;
+	private Hashtable<String, ObjectName> connectors;
 //	private Integer nodeNumber;
 	
 	public LispNetconfConnector() {
@@ -50,8 +55,8 @@ public class LispNetconfConnector {
         }
         
         String module = factory.getImplementationName();
-        ObjectName nameCreated = transaction.createModule(module, instanceName);
-        NetconfConnectorModuleMXBean mxBean = transaction.newMXBeanProxy(nameCreated, NetconfConnectorModuleMXBean.class);
+        ObjectName connName = transaction.createModule(module, instanceName);
+        NetconfConnectorModuleMXBean mxBean = transaction.newMXBeanProxy(connName, NetconfConnectorModuleMXBean.class);
         
         mxBean.setAddress(host);
         mxBean.setPassword(password);
@@ -64,11 +69,24 @@ public class LispNetconfConnector {
         
         LOG.info("Committing transaction");
         try {
-        	transaction.commit();
+        	transaction.commit();	                
         } catch (Exception e) {
             LOG.info("Transaction failed ", e.getStackTrace().toString());
 
         }
+	}
+	
+	public void removeNetconfConnector(String instanceName) throws InstanceNotFoundException {
+        ConfigTransactionJMXClient transaction = configRegistryClient.createTransaction();
+        transaction.destroyModule(NetconfConnectorModuleFactory.NAME, instanceName);
+        
+        try {
+        	transaction.commit();
+        } catch (ValidationException e1) {
+            LOG.error("Failed to validate NetconfConnectorModule transaction:", e1.getStackTrace().toString() );
+        } catch (ConflictingVersionException e) {
+        	LOG.error("NetconfConnectorModule conflicting version:", e.getStackTrace().toString() );
+        } 
 	}
 	
 	private void solveDependencies(ConfigTransactionJMXClient transaction, NetconfConnectorModuleMXBean mxBean) {
