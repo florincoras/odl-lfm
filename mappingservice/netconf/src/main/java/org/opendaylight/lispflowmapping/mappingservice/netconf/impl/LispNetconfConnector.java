@@ -33,25 +33,10 @@ public class LispNetconfConnector {
 	public LispNetconfConnector() {
 		platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 
-//		takeNap(1000);
 		configRegistryClient = new ConfigRegistryJMXClient(platformMBeanServer);
 		factory = new NetconfConnectorModuleFactory();
 		
-//		nodeNumber = 0;
 		System.out.println("REGISTRY AND FACTORY CONSTRUCTED");
-
-	}
-	
-	private void takeNap(Integer time) {
-		try {
-			LOG.info("GOING TO SLEEP " + time);
-			Thread.sleep(time);
-			LOG.info("FINISHED SLEEPING THE " + time);
-
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 	
@@ -64,7 +49,6 @@ public class LispNetconfConnector {
         	return;
         }
         
-//        String instanceName = "node" + nodeNumber;
         String module = factory.getImplementationName();
         ObjectName nameCreated = transaction.createModule(module, instanceName);
         NetconfConnectorModuleMXBean mxBean = transaction.newMXBeanProxy(nameCreated, NetconfConnectorModuleMXBean.class);
@@ -81,7 +65,6 @@ public class LispNetconfConnector {
         LOG.info("Committing transaction");
         try {
         	transaction.commit();
-//        	nodeNumber++;
         } catch (Exception e) {
             LOG.info("Transaction failed ", e.getStackTrace().toString());
 

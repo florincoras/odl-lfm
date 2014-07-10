@@ -97,7 +97,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	     * RestConf RPC call implemented from the LfmNetconfConnectorService interface.
 	     */
 	    @Override
-//	    public Future<RpcResult<Void>> buildConnector(BuildConnectorInput input) {
 	    public Future<RpcResult<Void>> buildConnector(final BuildConnectorInput input) {
 	        LOG.info("buildConnector: " + input);
 	        
