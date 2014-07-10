@@ -27,7 +27,6 @@
                 <module>neutron</module>
                 <module>integrationtest</module>
                 <module>netconf</module>
-                <module>toaster</module>
         </modules>
 	<dependencies>
 	        <dependency>
