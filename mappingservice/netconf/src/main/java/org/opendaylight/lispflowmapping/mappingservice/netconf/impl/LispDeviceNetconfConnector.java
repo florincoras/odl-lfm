@@ -1,9 +1,6 @@
 package org.opendaylight.lispflowmapping.mappingservice.netconf.impl;
 
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Hashtable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -22,13 +19,12 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controll
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcError;
 import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.opendaylight.yangtools.yang.common.RpcError.ErrorSeverity;
 import org.opendaylight.yangtools.yang.common.RpcError.ErrorType;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
-import org.opendaylight.controller.sal.common.util.RpcErrors;
-import org.opendaylight.controller.sal.common.util.Rpcs;
+import org.opendaylight.controller.md.sal.common.api.data.TransactionCommitFailedException;
+import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -51,9 +47,9 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	    private final Object taskLock = new Object();
 	  
 	   public LispDeviceNetconfConnector() {
-		   LOG.info( "LISP DEVICE NETCONF CONNECTOR CONSTRUCTED" );
 		   executor = Executors.newFixedThreadPool(1);
 		   nconfConnector = new LispNetconfConnector();
+		   LOG.info( "LispDeviceNetconfConnector constructed" );
 	   }
 	    
 	   private NcConnector buildNcConnector() {
@@ -75,7 +71,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	       if (dataProvider != null) {
 	            WriteTransaction t = dataProvider.newWriteOnlyTransaction();
 	            t.delete(LogicalDatastoreType.OPERATIONAL, NCC_IID);
-	            t.commit().get(); // FIXME: This call should not be blocking.
+	            t.submit().get(); // FIXME: This call should not be blocking.
 	       }
 	   }
 	   
@@ -86,7 +82,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            tx.put(LogicalDatastoreType.OPERATIONAL, NCC_IID, buildNcConnector());
 
 	            try {
-	                tx.commit().get();
+	                tx.submit().get();
 	            } catch (InterruptedException | ExecutionException e) {
 	                LOG.warn("Failed to update connector status, operational otherwise", e);
 	            }
@@ -94,6 +90,11 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            LOG.trace("No data provider configured, not updating status");
 	        }
 	   }  
+	   
+	    private RpcError makeNCCInUseError() {
+	        return RpcResultBuilder.newWarning( ErrorType.APPLICATION, "in-use",
+	                "LispNetconfConnector busy", null, null, null );
+	    }
 	   
 	    /**
 	     * RestConf RPC call implemented from the LfmNetconfConnectorService interface.
@@ -109,19 +110,13 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 		        
 	            if (currentTask != null) {
 	                // return an error since we are already doing some work.
-	                LOG.warn( "LISP NETCONF connector busy" );
-
-	                RpcResult<Void> result = Rpcs.<Void> getRpcResult(false, null, Arrays.asList(
-	                        RpcErrors.getRpcError( "", "in-use", null, ErrorSeverity.WARNING,
-	                                               "LISP NETCONF connector busy", ErrorType.APPLICATION, null ) ) );
-	                return Futures.immediateFuture(result);
+	                LOG.debug( "LispNetconfConnector busy" );
+                
+	                return Futures.immediateFailedCheckedFuture(
+	                		new TransactionCommitFailedException("", makeNCCInUseError() ) );
 	            } else {
-	                // Notice that we are moving the actual call to another thread,
+	                // We are moving the actual call to another thread,
 	                // allowing this thread to return immediately.
-	                // The MD-SAL design encourages asynchronus programming. If the
-	                // caller needs to block until the call is
-	                // complete then they can leverage the blocking methods on the
-	                // Future interface.
 	                currentTask = executor.submit(new MakeConnector(input));
 	            }
 	        }
@@ -138,17 +133,14 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 		        }
 		        
 		        if (currentTask != null) {
-		        	LOG.warn("LISP NETCONF connector busy");
-	                RpcResult<Void> result = Rpcs.<Void> getRpcResult(false, null, Arrays.asList(
-	                        RpcErrors.getRpcError( "", "in-use", null, ErrorSeverity.WARNING,
-	                                               "LISP NETCONF connector busy", ErrorType.APPLICATION, null ) ) );
-	                return Futures.immediateFuture(result);
+		        	LOG.warn("LispNetconfConnector busy");
+	                return Futures.immediateFailedCheckedFuture(
+	                		new TransactionCommitFailedException("", makeNCCInUseError() ) );
 		        } else {
 		        	currentTask = executor.submit(new RemoveConnector(input));
 		        }
 		        
 	    	}
-	    	
 	    	
 	    	return currentTask;
 	    }
@@ -164,9 +156,10 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	        @Override
 	        public RpcResult<Void> call() {
-	        	LOG.debug("Called Make connector RPC \n");
-	            try {
-	            	nconfConnector.createNetconfConnector(req.getInstance(), req.getAddress(), req.getPort().getValue(), req.getUsername(), req.getPassword());
+
+	        	try {
+	            	nconfConnector.createNetconfConnector(req.getInstance(), req.getAddress(), 
+	            			req.getPort().getValue(), req.getUsername(), req.getPassword());
 	            } catch( InstanceAlreadyExistsException e ) {
 	                LOG.info( "NETCONF connector {} already exists!", req.getInstance() );
 	            }
@@ -179,7 +172,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	            LOG.debug("Connector {} built", req.getInstance());
 
-	            return Rpcs.<Void> getRpcResult(true, null, Collections.<RpcError> emptySet());
+	            return RpcResultBuilder.<Void> success().build();
 	        }
 	    }
 	    
@@ -207,7 +200,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	            LOG.debug("Connector {} removed", req.getInstance());
 
-	            return Rpcs.<Void> getRpcResult(true, null, Collections.<RpcError> emptySet());
+	            return RpcResultBuilder.<Void> success().build();
 	        }
 	    }
 	}

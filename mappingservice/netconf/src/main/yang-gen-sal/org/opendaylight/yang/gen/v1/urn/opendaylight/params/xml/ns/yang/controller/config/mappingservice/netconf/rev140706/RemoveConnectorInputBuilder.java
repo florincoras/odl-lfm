@@ -5,7 +5,10 @@ import java.util.HashMap;
 import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
-
+/**
+ * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput} instances.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput
+ */
 public class RemoveConnectorInputBuilder {
 
     private java.lang.String _instance;
@@ -14,6 +17,14 @@ public class RemoveConnectorInputBuilder {
 
     public RemoveConnectorInputBuilder() {
     } 
+
+    public RemoveConnectorInputBuilder(RemoveConnectorInput base) {
+        this._instance = base.getInstance();
+        if (base instanceof RemoveConnectorInputImpl) {
+            RemoveConnectorInputImpl _impl = (RemoveConnectorInputImpl) base;
+            this.augmentation = new HashMap<>(_impl.augmentation);
+        }
+    }
 
 
     public java.lang.String getInstance() {
@@ -52,19 +63,19 @@ public class RemoveConnectorInputBuilder {
 
         private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>> augmentation = new HashMap<>();
 
-        private RemoveConnectorInputImpl(RemoveConnectorInputBuilder builder) {
-            this._instance = builder.getInstance();
-            switch (builder.augmentation.size()) {
-             case 0:
-                 this.augmentation = Collections.emptyMap();
-                 break;
-             case 1:
-                 final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>> e = builder.augmentation.entrySet().iterator().next();
-                 this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>singletonMap(e.getKey(), e.getValue());
-                 break;
-             default :
-                 this.augmentation = new HashMap<>(builder.augmentation);
-             }
+        private RemoveConnectorInputImpl(RemoveConnectorInputBuilder base) {
+            this._instance = base.getInstance();
+                switch (base.augmentation.size()) {
+                case 0:
+                    this.augmentation = Collections.emptyMap();
+                    break;
+                    case 1:
+                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>> e = base.augmentation.entrySet().iterator().next();
+                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.RemoveConnectorInput>>singletonMap(e.getKey(), e.getValue());       
+                    break;
+                default :
+                    this.augmentation = new HashMap<>(base.augmentation);
+                }
         }
 
         @Override

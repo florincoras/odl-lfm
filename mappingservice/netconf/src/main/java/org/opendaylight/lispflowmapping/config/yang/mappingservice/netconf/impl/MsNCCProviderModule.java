@@ -27,7 +27,6 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
     @Override
     public java.lang.AutoCloseable createInstance() {
     	
-    	System.out.println("LISP NETCONF createInstance");
         final LispDeviceNetconfConnector lnconfConnector = new LispDeviceNetconfConnector();
 
         // Register to md-sal
@@ -38,8 +37,7 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
                 .addRpcImplementation(LfmNetconfConnectorService.class, lnconfConnector);
 
 
-        // Wrap toaster as AutoCloseable and close registrations to md-sal at
-        // close()
+        // Wrap as AutoCloseable and close registrations to md-sal at close()
         final class AutoCloseableNCC implements AutoCloseable {
 
             @Override

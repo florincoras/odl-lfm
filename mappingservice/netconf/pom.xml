@@ -187,30 +187,4 @@
 	</build>
 </project>
 
-<!-- 
-						  	org.opendaylight.yangtools.yang.data.impl,
-						  	org.opendaylight.yangtools.sal.binding.generator.impl,
-						    com.google.common.net,
-						    javax.management,
-							org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100924,
-							org.opendaylight.controller.sal.core,
-							org.apache.felix.dm,
-							org.apache.commons.lang3.builder,
-							org.osgi.service.component,
-							org.slf4j,
-							org.eclipse.osgi.framework.console,
-							org.osgi.framework,
-							org.osgi.util.tracker,
-							org.opendaylight.controller.config.api,
-							org.opendaylight.controller.config.api.jmx,
-							org.opendaylight.controller.sal.binding.api,
-							org.opendaylight.controller.config.yang.md.sal.connector.netconf,
-							org.opendaylight.yangtools.yang.binding,
-							org.opendaylight.yangtools.yang.common,
-							org.opendaylight.controller.config.threadpool,
-							com.google.common.util.concurrent, 
-							com.google.common.collect,
-							org.opendaylight.controller.md.sal.binding.api,
-							org.opendaylight.controller.md.sal.common.api.data,
-							org.opendaylight.controller.sal.common.util, 
- -->
+

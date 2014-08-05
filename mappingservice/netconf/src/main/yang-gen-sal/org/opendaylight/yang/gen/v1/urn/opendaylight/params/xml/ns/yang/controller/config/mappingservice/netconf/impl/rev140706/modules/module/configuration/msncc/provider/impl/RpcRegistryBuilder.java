@@ -6,11 +6,14 @@ import java.util.HashMap;
 import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
-
+/**
+ * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry} instances.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry
+ */
 public class RpcRegistryBuilder {
 
-    private java.lang.Object _name;
     private java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> _type;
+    private java.lang.Object _name;
 
     private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> augmentation = new HashMap<>();
 
@@ -18,12 +21,21 @@ public class RpcRegistryBuilder {
     } 
     
     public RpcRegistryBuilder(org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceRef arg) {
-        this._name = arg.getName();
         this._type = arg.getType();
+        this._name = arg.getName();
+    }
+
+    public RpcRegistryBuilder(RpcRegistry base) {
+        this._type = base.getType();
+        this._name = base.getName();
+        if (base instanceof RpcRegistryImpl) {
+            RpcRegistryImpl _impl = (RpcRegistryImpl) base;
+            this.augmentation = new HashMap<>(_impl.augmentation);
+        }
     }
 
     /**
-     Set fields from given grouping argument. Valid argument is instance of one of following types:
+     *Set fields from given grouping argument. Valid argument is instance of one of following types:
      * <ul>
      * <li>org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceRef</li>
      * </ul>
@@ -34,8 +46,8 @@ public class RpcRegistryBuilder {
     public void fieldsFrom(DataObject arg) {
         boolean isValidArg = false;
         if (arg instanceof org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceRef) {
-            this._name = ((org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceRef)arg).getName();
             this._type = ((org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceRef)arg).getType();
+            this._name = ((org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceRef)arg).getName();
             isValidArg = true;
         }
         if (!isValidArg) {
@@ -46,12 +58,12 @@ public class RpcRegistryBuilder {
         }
     }
 
-    public java.lang.Object getName() {
-        return _name;
-    }
-    
     public java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> getType() {
         return _type;
+    }
+    
+    public java.lang.Object getName() {
+        return _name;
     }
     
     @SuppressWarnings("unchecked")
@@ -62,13 +74,13 @@ public class RpcRegistryBuilder {
         return (E) augmentation.get(augmentationType);
     }
 
-    public RpcRegistryBuilder setName(java.lang.Object value) {
-        this._name = value;
+    public RpcRegistryBuilder setType(java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> value) {
+        this._type = value;
         return this;
     }
     
-    public RpcRegistryBuilder setType(java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> value) {
-        this._type = value;
+    public RpcRegistryBuilder setName(java.lang.Object value) {
+        this._name = value;
         return this;
     }
     
@@ -87,35 +99,35 @@ public class RpcRegistryBuilder {
             return org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry.class;
         }
 
-        private final java.lang.Object _name;
         private final java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> _type;
+        private final java.lang.Object _name;
 
         private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> augmentation = new HashMap<>();
 
-        private RpcRegistryImpl(RpcRegistryBuilder builder) {
-            this._name = builder.getName();
-            this._type = builder.getType();
-            switch (builder.augmentation.size()) {
-             case 0:
-                 this.augmentation = Collections.emptyMap();
-                 break;
-             case 1:
-                 final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> e = builder.augmentation.entrySet().iterator().next();
-                 this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>singletonMap(e.getKey(), e.getValue());
-                 break;
-             default :
-                 this.augmentation = new HashMap<>(builder.augmentation);
-             }
+        private RpcRegistryImpl(RpcRegistryBuilder base) {
+            this._type = base.getType();
+            this._name = base.getName();
+                switch (base.augmentation.size()) {
+                case 0:
+                    this.augmentation = Collections.emptyMap();
+                    break;
+                    case 1:
+                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> e = base.augmentation.entrySet().iterator().next();
+                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>singletonMap(e.getKey(), e.getValue());       
+                    break;
+                default :
+                    this.augmentation = new HashMap<>(base.augmentation);
+                }
         }
 
         @Override
-        public java.lang.Object getName() {
-            return _name;
+        public java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> getType() {
+            return _type;
         }
         
         @Override
-        public java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> getType() {
-            return _type;
+        public java.lang.Object getName() {
+            return _name;
         }
         
         @SuppressWarnings("unchecked")
@@ -131,8 +143,8 @@ public class RpcRegistryBuilder {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((_name == null) ? 0 : _name.hashCode());
             result = prime * result + ((_type == null) ? 0 : _type.hashCode());
+            result = prime * result + ((_name == null) ? 0 : _name.hashCode());
             result = prime * result + ((augmentation == null) ? 0 : augmentation.hashCode());
             return result;
         }
@@ -149,18 +161,18 @@ public class RpcRegistryBuilder {
                 return false;
             }
             RpcRegistryImpl other = (RpcRegistryImpl) obj;
-            if (_name == null) {
-                if (other._name != null) {
-                    return false;
-                }
-            } else if(!_name.equals(other._name)) {
-                return false;
-            }
             if (_type == null) {
                 if (other._type != null) {
                     return false;
                 }
             } else if(!_type.equals(other._type)) {
+                return false;
+            }
+            if (_name == null) {
+                if (other._name != null) {
+                    return false;
+                }
+            } else if(!_name.equals(other._name)) {
                 return false;
             }
             if (augmentation == null) {
@@ -178,15 +190,6 @@ public class RpcRegistryBuilder {
             java.lang.StringBuilder builder = new java.lang.StringBuilder ("RpcRegistry [");
             boolean first = true;
         
-            if (_name != null) {
-                if (first) {
-                    first = false;
-                } else {
-                    builder.append(", ");
-                }
-                builder.append("_name=");
-                builder.append(_name);
-             }
             if (_type != null) {
                 if (first) {
                     first = false;
@@ -195,6 +198,15 @@ public class RpcRegistryBuilder {
                 }
                 builder.append("_type=");
                 builder.append(_type);
+             }
+            if (_name != null) {
+                if (first) {
+                    first = false;
+                } else {
+                    builder.append(", ");
+                }
+                builder.append("_name=");
+                builder.append(_name);
              }
             if (first) {
                 first = false;

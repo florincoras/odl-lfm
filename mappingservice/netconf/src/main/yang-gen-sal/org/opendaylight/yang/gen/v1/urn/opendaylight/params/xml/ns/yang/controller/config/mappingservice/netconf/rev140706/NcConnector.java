@@ -6,8 +6,18 @@ import org.opendaylight.yangtools.yang.binding.Augmentable;
 
 
 /**
-  Top-level container for all connector database objects.
-**/
+ * Top-level container for all connector database objects.
+ * <p>This class represents the following YANG schema fragment defined in module <b>lfm-netconf-connector</b>
+ * <br />(Source path: <i>META-INF/yang/lfm-netconf-connector.yang</i>):
+ * <pre>
+ * container nc-connector {
+ * }
+ * </pre>
+ * The schema path to identify an instance is
+ * <i>lfm-netconf-connector/nc-connector</i>
+ * <p>To create instances of this class use {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnectorBuilder}.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnectorBuilder
+ */
 public interface NcConnector
     extends
     ChildOf<LfmNetconfConnectorData>,

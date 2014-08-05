@@ -5,7 +5,10 @@ import java.util.HashMap;
 import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
-
+/**
+ * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector} instances.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector
+ */
 public class NcConnectorBuilder {
 
 
@@ -13,6 +16,13 @@ public class NcConnectorBuilder {
 
     public NcConnectorBuilder() {
     } 
+
+    public NcConnectorBuilder(NcConnector base) {
+        if (base instanceof NcConnectorImpl) {
+            NcConnectorImpl _impl = (NcConnectorImpl) base;
+            this.augmentation = new HashMap<>(_impl.augmentation);
+        }
+    }
 
 
     
@@ -43,18 +53,18 @@ public class NcConnectorBuilder {
 
         private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>> augmentation = new HashMap<>();
 
-        private NcConnectorImpl(NcConnectorBuilder builder) {
-            switch (builder.augmentation.size()) {
-             case 0:
-                 this.augmentation = Collections.emptyMap();
-                 break;
-             case 1:
-                 final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>> e = builder.augmentation.entrySet().iterator().next();
-                 this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>singletonMap(e.getKey(), e.getValue());
-                 break;
-             default :
-                 this.augmentation = new HashMap<>(builder.augmentation);
-             }
+        private NcConnectorImpl(NcConnectorBuilder base) {
+                switch (base.augmentation.size()) {
+                case 0:
+                    this.augmentation = Collections.emptyMap();
+                    break;
+                    case 1:
+                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>> e = base.augmentation.entrySet().iterator().next();
+                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.NcConnector>>singletonMap(e.getKey(), e.getValue());       
+                    break;
+                default :
+                    this.augmentation = new HashMap<>(base.augmentation);
+                }
         }
 
         

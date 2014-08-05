@@ -7,7 +7,10 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controll
 import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
-
+/**
+ * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl} instances.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl
+ */
 public class MsnccProviderImplBuilder {
 
     private DataBroker _dataBroker;
@@ -18,6 +21,15 @@ public class MsnccProviderImplBuilder {
     public MsnccProviderImplBuilder() {
     } 
     
+
+    public MsnccProviderImplBuilder(MsnccProviderImpl base) {
+        this._dataBroker = base.getDataBroker();
+        this._rpcRegistry = base.getRpcRegistry();
+        if (base instanceof MsnccProviderImplImpl) {
+            MsnccProviderImplImpl _impl = (MsnccProviderImplImpl) base;
+            this.augmentation = new HashMap<>(_impl.augmentation);
+        }
+    }
 
 
     public DataBroker getDataBroker() {
@@ -66,20 +78,20 @@ public class MsnccProviderImplBuilder {
 
         private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>> augmentation = new HashMap<>();
 
-        private MsnccProviderImplImpl(MsnccProviderImplBuilder builder) {
-            this._dataBroker = builder.getDataBroker();
-            this._rpcRegistry = builder.getRpcRegistry();
-            switch (builder.augmentation.size()) {
-             case 0:
-                 this.augmentation = Collections.emptyMap();
-                 break;
-             case 1:
-                 final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>> e = builder.augmentation.entrySet().iterator().next();
-                 this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>singletonMap(e.getKey(), e.getValue());
-                 break;
-             default :
-                 this.augmentation = new HashMap<>(builder.augmentation);
-             }
+        private MsnccProviderImplImpl(MsnccProviderImplBuilder base) {
+            this._dataBroker = base.getDataBroker();
+            this._rpcRegistry = base.getRpcRegistry();
+                switch (base.augmentation.size()) {
+                case 0:
+                    this.augmentation = Collections.emptyMap();
+                    break;
+                    case 1:
+                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>> e = base.augmentation.entrySet().iterator().next();
+                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>singletonMap(e.getKey(), e.getValue());       
+                    break;
+                default :
+                    this.augmentation = new HashMap<>(base.augmentation);
+                }
         }
 
         @Override

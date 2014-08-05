@@ -11,32 +11,43 @@ import org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.
 import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
-
+/**
+ * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput} instances.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput
+ */
 public class BuildConnectorInputBuilder {
 
-    private Host _address;
     private java.lang.String _instance;
-    private java.lang.String _password;
+    private Host _address;
     private PortNumber _port;
     private static List<Range<BigInteger>> _port_range;
     private java.lang.String _username;
+    private java.lang.String _password;
 
     private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>> augmentation = new HashMap<>();
 
     public BuildConnectorInputBuilder() {
     } 
 
-
-    public Host getAddress() {
-        return _address;
+    public BuildConnectorInputBuilder(BuildConnectorInput base) {
+        this._instance = base.getInstance();
+        this._address = base.getAddress();
+        this._port = base.getPort();
+        this._username = base.getUsername();
+        this._password = base.getPassword();
+        if (base instanceof BuildConnectorInputImpl) {
+            BuildConnectorInputImpl _impl = (BuildConnectorInputImpl) base;
+            this.augmentation = new HashMap<>(_impl.augmentation);
+        }
     }
-    
+
+
     public java.lang.String getInstance() {
         return _instance;
     }
     
-    public java.lang.String getPassword() {
-        return _password;
+    public Host getAddress() {
+        return _address;
     }
     
     public PortNumber getPort() {
@@ -47,6 +58,10 @@ public class BuildConnectorInputBuilder {
         return _username;
     }
     
+    public java.lang.String getPassword() {
+        return _password;
+    }
+    
     @SuppressWarnings("unchecked")
     public <E extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>> E getAugmentation(java.lang.Class<E> augmentationType) {
         if (augmentationType == null) {
@@ -55,18 +70,13 @@ public class BuildConnectorInputBuilder {
         return (E) augmentation.get(augmentationType);
     }
 
-    public BuildConnectorInputBuilder setAddress(Host value) {
-        this._address = value;
-        return this;
-    }
-    
     public BuildConnectorInputBuilder setInstance(java.lang.String value) {
         this._instance = value;
         return this;
     }
     
-    public BuildConnectorInputBuilder setPassword(java.lang.String value) {
-        this._password = value;
+    public BuildConnectorInputBuilder setAddress(Host value) {
+        this._address = value;
         return this;
     }
     
@@ -104,6 +114,11 @@ public class BuildConnectorInputBuilder {
         return this;
     }
     
+    public BuildConnectorInputBuilder setPassword(java.lang.String value) {
+        this._password = value;
+        return this;
+    }
+    
     public BuildConnectorInputBuilder addAugmentation(java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>> augmentationType, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput> augmentation) {
         this.augmentation.put(augmentationType, augmentation);
         return this;
@@ -119,46 +134,41 @@ public class BuildConnectorInputBuilder {
             return org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput.class;
         }
 
-        private final Host _address;
         private final java.lang.String _instance;
-        private final java.lang.String _password;
+        private final Host _address;
         private final PortNumber _port;
         private final java.lang.String _username;
+        private final java.lang.String _password;
 
         private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>> augmentation = new HashMap<>();
 
-        private BuildConnectorInputImpl(BuildConnectorInputBuilder builder) {
-            this._address = builder.getAddress();
-            this._instance = builder.getInstance();
-            this._password = builder.getPassword();
-            this._port = builder.getPort();
-            this._username = builder.getUsername();
-            switch (builder.augmentation.size()) {
-             case 0:
-                 this.augmentation = Collections.emptyMap();
-                 break;
-             case 1:
-                 final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>> e = builder.augmentation.entrySet().iterator().next();
-                 this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>singletonMap(e.getKey(), e.getValue());
-                 break;
-             default :
-                 this.augmentation = new HashMap<>(builder.augmentation);
-             }
+        private BuildConnectorInputImpl(BuildConnectorInputBuilder base) {
+            this._instance = base.getInstance();
+            this._address = base.getAddress();
+            this._port = base.getPort();
+            this._username = base.getUsername();
+            this._password = base.getPassword();
+                switch (base.augmentation.size()) {
+                case 0:
+                    this.augmentation = Collections.emptyMap();
+                    break;
+                    case 1:
+                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>> e = base.augmentation.entrySet().iterator().next();
+                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.BuildConnectorInput>>singletonMap(e.getKey(), e.getValue());       
+                    break;
+                default :
+                    this.augmentation = new HashMap<>(base.augmentation);
+                }
         }
 
-        @Override
-        public Host getAddress() {
-            return _address;
-        }
-        
         @Override
         public java.lang.String getInstance() {
             return _instance;
         }
         
         @Override
-        public java.lang.String getPassword() {
-            return _password;
+        public Host getAddress() {
+            return _address;
         }
         
         @Override
@@ -169,6 +179,11 @@ public class BuildConnectorInputBuilder {
         @Override
         public java.lang.String getUsername() {
             return _username;
+        }
+        
+        @Override
+        public java.lang.String getPassword() {
+            return _password;
         }
         
         @SuppressWarnings("unchecked")
@@ -184,11 +199,11 @@ public class BuildConnectorInputBuilder {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((_address == null) ? 0 : _address.hashCode());
             result = prime * result + ((_instance == null) ? 0 : _instance.hashCode());
-            result = prime * result + ((_password == null) ? 0 : _password.hashCode());
+            result = prime * result + ((_address == null) ? 0 : _address.hashCode());
             result = prime * result + ((_port == null) ? 0 : _port.hashCode());
             result = prime * result + ((_username == null) ? 0 : _username.hashCode());
+            result = prime * result + ((_password == null) ? 0 : _password.hashCode());
             result = prime * result + ((augmentation == null) ? 0 : augmentation.hashCode());
             return result;
         }
@@ -205,13 +220,6 @@ public class BuildConnectorInputBuilder {
                 return false;
             }
             BuildConnectorInputImpl other = (BuildConnectorInputImpl) obj;
-            if (_address == null) {
-                if (other._address != null) {
-                    return false;
-                }
-            } else if(!_address.equals(other._address)) {
-                return false;
-            }
             if (_instance == null) {
                 if (other._instance != null) {
                     return false;
@@ -219,11 +227,11 @@ public class BuildConnectorInputBuilder {
             } else if(!_instance.equals(other._instance)) {
                 return false;
             }
-            if (_password == null) {
-                if (other._password != null) {
+            if (_address == null) {
+                if (other._address != null) {
                     return false;
                 }
-            } else if(!_password.equals(other._password)) {
+            } else if(!_address.equals(other._address)) {
                 return false;
             }
             if (_port == null) {
@@ -238,6 +246,13 @@ public class BuildConnectorInputBuilder {
                     return false;
                 }
             } else if(!_username.equals(other._username)) {
+                return false;
+            }
+            if (_password == null) {
+                if (other._password != null) {
+                    return false;
+                }
+            } else if(!_password.equals(other._password)) {
                 return false;
             }
             if (augmentation == null) {
@@ -255,15 +270,6 @@ public class BuildConnectorInputBuilder {
             java.lang.StringBuilder builder = new java.lang.StringBuilder ("BuildConnectorInput [");
             boolean first = true;
         
-            if (_address != null) {
-                if (first) {
-                    first = false;
-                } else {
-                    builder.append(", ");
-                }
-                builder.append("_address=");
-                builder.append(_address);
-             }
             if (_instance != null) {
                 if (first) {
                     first = false;
@@ -273,14 +279,14 @@ public class BuildConnectorInputBuilder {
                 builder.append("_instance=");
                 builder.append(_instance);
              }
-            if (_password != null) {
+            if (_address != null) {
                 if (first) {
                     first = false;
                 } else {
                     builder.append(", ");
                 }
-                builder.append("_password=");
-                builder.append(_password);
+                builder.append("_address=");
+                builder.append(_address);
              }
             if (_port != null) {
                 if (first) {
@@ -299,6 +305,15 @@ public class BuildConnectorInputBuilder {
                 }
                 builder.append("_username=");
                 builder.append(_username);
+             }
+            if (_password != null) {
+                if (first) {
+                    first = false;
+                } else {
+                    builder.append(", ");
+                }
+                builder.append("_password=");
+                builder.append(_password);
              }
             if (first) {
                 first = false;

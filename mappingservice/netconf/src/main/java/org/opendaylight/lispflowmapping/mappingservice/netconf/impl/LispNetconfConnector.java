@@ -1,7 +1,6 @@
 package org.opendaylight.lispflowmapping.mappingservice.netconf.impl;
 
 import java.lang.management.ManagementFactory;
-import java.util.Hashtable;
 import java.util.Set;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -31,31 +30,31 @@ public class LispNetconfConnector {
 	private static final Logger LOG = LoggerFactory.getLogger(LispNetconfConnector.class);
 
     private MBeanServer platformMBeanServer;
-	private NetconfConnectorModuleFactory factory;
-	private Hashtable<String, ObjectName> connectors;
-//	private Integer nodeNumber;
 	
 	public LispNetconfConnector() {
-		platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
-
-		configRegistryClient = new ConfigRegistryJMXClient(platformMBeanServer);
-		factory = new NetconfConnectorModuleFactory();
 		
-		System.out.println("REGISTRY AND FACTORY CONSTRUCTED");
-
+		// Obtain the platform's MBeanServer (should've been previously created)
+		// and create a ConfigRegistry JMX client via which modules can be created
+		// and destroyed
+		platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
+		configRegistryClient = new ConfigRegistryJMXClient(platformMBeanServer);
+		
 	}
 	
+	// Build a sal-netconf-connector to specified device. Module instantiation and dependency resolution
+	// are done via a JMX ConfigTransactionClient 
 	public void createNetconfConnector(String instanceName, Host host, Integer port, String username, String password) throws InstanceAlreadyExistsException {
 		
         ConfigTransactionJMXClient transaction = configRegistryClient.createTransaction();
         
         if (transaction == null) {
-        	LOG.error("TRANSACTION NOT INITIALIZED!");
+        	LOG.error("Could not create transaction with ConfigRegistry! Cannot build NETCONF connector!");
         	return;
         }
         
-        String module = factory.getImplementationName();
-        ObjectName connName = transaction.createModule(module, instanceName);
+        // create sal-netconf-connector module and via an mxBean configure all 
+        // yang defined parameters
+        ObjectName connName = transaction.createModule(NetconfConnectorModuleFactory.NAME, instanceName);
         NetconfConnectorModuleMXBean mxBean = transaction.newMXBeanProxy(connName, NetconfConnectorModuleMXBean.class);
         
         mxBean.setAddress(host);
@@ -64,15 +63,15 @@ public class LispNetconfConnector {
         mxBean.setUsername(username);
         mxBean.setTcpOnly(false);
 
-        LOG.info("Solving dependencies");
-        solveDependencies(transaction, mxBean);
+        if (solveDependencies(transaction, mxBean) != true) {
+        	LOG.error("Failed to solve dependencies! Aborting!");
+        	return;
+        }
         
-        LOG.info("Committing transaction");
         try {
         	transaction.commit();	                
         } catch (Exception e) {
-            LOG.info("Transaction failed ", e.getStackTrace().toString());
-
+            LOG.error("Transaction failed ", e.getStackTrace().toString());
         }
 	}
 	
@@ -89,49 +88,56 @@ public class LispNetconfConnector {
         } 
 	}
 	
-	private void solveDependencies(ConfigTransactionJMXClient transaction, NetconfConnectorModuleMXBean mxBean) {
+	// Lookup sal-netconf-connector dependencies using a ConfigTransactionJMXClient and configure them
+	// for the module we are about to instantiate. 
+	private boolean solveDependencies(ConfigTransactionJMXClient transaction, NetconfConnectorModuleMXBean mxBean) {
 		
     	ObjectName bindingBrokerRegistry = findConfigBean(BindingBrokerImplModuleFactory.NAME, transaction);
     	if (bindingBrokerRegistry != null ) {
     		mxBean.setBindingRegistry(bindingBrokerRegistry);
     	} else {
-    		System.out.println("NO BINDING BROKER INSTANCE");
+    		LOG.debug("No BindingBroker instance found");
+    		return false;
     	}
 
         ObjectName domRegistry = findConfigBean(DomBrokerImplModuleFactory.NAME, transaction);
         if (domRegistry != null) {
         	mxBean.setDomRegistry(domRegistry);
         } else {
-        	System.out.println("NO DOM REGISTRY BROKER INSTANCE");
+        	LOG.debug("No DomRegistryBroker instance found");
+        	return false;
         }
         
         ObjectName eventExecutor = findConfigBean(GlobalEventExecutorModuleFactory.NAME, transaction);
         if (eventExecutor != null) {
             mxBean.setEventExecutor(eventExecutor);
         } else {
-        	System.out.println("NO EVENT EXECUTOR INSTANCE");
+        	LOG.debug("No EventExecutor instance found");
+        	return false;
         }
-        
         
         ObjectName threadpool = findConfigBean(FlexibleThreadPoolModuleFactory.NAME, transaction);
         if (threadpool != null) {
             mxBean.setProcessingExecutor(threadpool);
         } else {
-        	System.out.println("NO THREADPOOL INSTANCE");
+        	LOG.debug("No ThreadPool instance found");
+        	return false;
         }
         
         ObjectName clientDispatcher = findConfigBean(NetconfClientDispatcherModuleFactory.NAME, transaction);
-        if (threadpool != null) {
+        if (clientDispatcher != null) {
             mxBean.setClientDispatcher(clientDispatcher);
         } else {
-        	System.out.println("NO CLIENT DISPATCHER INSTANCE");
+        	LOG.debug("No ClientDispatcher instance found");
+        	return false;
         }
+        
+        return true;
         
 	}
 	
 	private ObjectName findConfigBean(String name, ConfigTransactionJMXClient transaction) {
     	Set<ObjectName> set = transaction.lookupConfigBeans(name);
-    	System.out.println("Found " + set.size() + " " + name + " items!");
     	if (set.size() > 0) {
     		return set.iterator().next();
     	} else {
