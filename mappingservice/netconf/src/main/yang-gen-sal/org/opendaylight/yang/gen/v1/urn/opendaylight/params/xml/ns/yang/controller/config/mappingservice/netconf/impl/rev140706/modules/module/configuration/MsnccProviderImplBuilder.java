@@ -3,7 +3,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.DataBroker;
 import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
@@ -13,7 +12,6 @@ import org.opendaylight.yangtools.yang.binding.Augmentation;
  */
 public class MsnccProviderImplBuilder {
 
-    private DataBroker _dataBroker;
     private RpcRegistry _rpcRegistry;
 
     private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>> augmentation = new HashMap<>();
@@ -23,7 +21,6 @@ public class MsnccProviderImplBuilder {
     
 
     public MsnccProviderImplBuilder(MsnccProviderImpl base) {
-        this._dataBroker = base.getDataBroker();
         this._rpcRegistry = base.getRpcRegistry();
         if (base instanceof MsnccProviderImplImpl) {
             MsnccProviderImplImpl _impl = (MsnccProviderImplImpl) base;
@@ -32,10 +29,6 @@ public class MsnccProviderImplBuilder {
     }
 
 
-    public DataBroker getDataBroker() {
-        return _dataBroker;
-    }
-    
     public RpcRegistry getRpcRegistry() {
         return _rpcRegistry;
     }
@@ -48,11 +41,6 @@ public class MsnccProviderImplBuilder {
         return (E) augmentation.get(augmentationType);
     }
 
-    public MsnccProviderImplBuilder setDataBroker(DataBroker value) {
-        this._dataBroker = value;
-        return this;
-    }
-    
     public MsnccProviderImplBuilder setRpcRegistry(RpcRegistry value) {
         this._rpcRegistry = value;
         return this;
@@ -73,13 +61,11 @@ public class MsnccProviderImplBuilder {
             return org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl.class;
         }
 
-        private final DataBroker _dataBroker;
         private final RpcRegistry _rpcRegistry;
 
         private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.MsnccProviderImpl>> augmentation = new HashMap<>();
 
         private MsnccProviderImplImpl(MsnccProviderImplBuilder base) {
-            this._dataBroker = base.getDataBroker();
             this._rpcRegistry = base.getRpcRegistry();
                 switch (base.augmentation.size()) {
                 case 0:
@@ -94,11 +80,6 @@ public class MsnccProviderImplBuilder {
                 }
         }
 
-        @Override
-        public DataBroker getDataBroker() {
-            return _dataBroker;
-        }
-        
         @Override
         public RpcRegistry getRpcRegistry() {
             return _rpcRegistry;
@@ -117,7 +98,6 @@ public class MsnccProviderImplBuilder {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((_dataBroker == null) ? 0 : _dataBroker.hashCode());
             result = prime * result + ((_rpcRegistry == null) ? 0 : _rpcRegistry.hashCode());
             result = prime * result + ((augmentation == null) ? 0 : augmentation.hashCode());
             return result;
@@ -135,13 +115,6 @@ public class MsnccProviderImplBuilder {
                 return false;
             }
             MsnccProviderImplImpl other = (MsnccProviderImplImpl) obj;
-            if (_dataBroker == null) {
-                if (other._dataBroker != null) {
-                    return false;
-                }
-            } else if(!_dataBroker.equals(other._dataBroker)) {
-                return false;
-            }
             if (_rpcRegistry == null) {
                 if (other._rpcRegistry != null) {
                     return false;
@@ -164,15 +137,6 @@ public class MsnccProviderImplBuilder {
             java.lang.StringBuilder builder = new java.lang.StringBuilder ("MsnccProviderImpl [");
             boolean first = true;
         
-            if (_dataBroker != null) {
-                if (first) {
-                    first = false;
-                } else {
-                    builder.append(", ");
-                }
-                builder.append("_dataBroker=");
-                builder.append(_dataBroker);
-             }
             if (_rpcRegistry != null) {
                 if (first) {
                     first = false;

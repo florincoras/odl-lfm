@@ -2,7 +2,6 @@ package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.control
 import org.opendaylight.yangtools.yang.common.QName;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry;
 import org.opendaylight.yangtools.yang.binding.DataObject;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.DataBroker;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.modules.module.Configuration;
 import org.opendaylight.yangtools.yang.binding.Augmentable;
 
@@ -12,21 +11,6 @@ import org.opendaylight.yangtools.yang.binding.Augmentable;
  * <br />(Source path: <i>META-INF/yang/msncc-provider-impl.yang</i>):
  * <pre>
  * case msncc-provider-impl {
- *     container data-broker {
- *         leaf type {
- *             type service-type-ref;
- *         }
- *         leaf name {
- *             type leafref;
- *         }
- *         uses service-ref {
- *             refine (urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf:impl?revision=2014-07-06)type {
- *                 leaf type {
- *                     type service-type-ref;
- *                 }
- *             }
- *         }
- *     }
  *     container rpc-registry {
  *         leaf type {
  *             type service-type-ref;
@@ -58,8 +42,6 @@ public interface MsnccProviderImpl
 
     public static final QName QNAME = org.opendaylight.yangtools.yang.common.QName.create("urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf:impl","2014-07-06","msncc-provider-impl");;
 
-    DataBroker getDataBroker();
-    
     RpcRegistry getRpcRegistry();
 
 }

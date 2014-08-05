@@ -28,14 +28,15 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 
 
-public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConnectorService{
-	  
-	   //making this public because this unique ID is required later on in other classes.
-	   public static final InstanceIdentifier<NcConnector>  NCC_IID = InstanceIdentifier.builder(NcConnector.class).build();
+public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConnectorService {
+		
 	   private static final Logger LOG = LoggerFactory.getLogger(LispDeviceNetconfConnector.class);
+	   public static final InstanceIdentifier<NcConnector> NCC_IID = InstanceIdentifier.builder(NcConnector.class).build();
+
 	      
 	   private DataBroker dataProvider;
 	   private final ExecutorService executor;
@@ -52,15 +53,13 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 		   LOG.info( "LispDeviceNetconfConnector constructed" );
 	   }
 	    
-	   private NcConnector buildNcConnector() {
-		   NcConnectorBuilder nccb = new NcConnectorBuilder();
-	       return nccb.build();
-	   }
-	   
-	   public void setDataProvider(final DataBroker salDataProvider) {
-	        this.dataProvider = salDataProvider;
-	        updateStatus();
-	   }
+//	   public void setDataProvider(final DataBroker salDataProvider) {
+//	        this.dataProvider = salDataProvider;
+//	        
+//	        WriteTransaction tx = dataProvider.newWriteOnlyTransaction();
+//            tx.put( LogicalDatastoreType.OPERATIONAL, NCC_IID );
+//            tx.submit();
+//	   }
 	 
 	   /**
 	    * Implemented from the AutoCloseable interface.
@@ -68,28 +67,26 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	   @Override
 	   public void close() throws ExecutionException, InterruptedException {
 		   executor.shutdown();
-	       if (dataProvider != null) {
-	            WriteTransaction t = dataProvider.newWriteOnlyTransaction();
-	            t.delete(LogicalDatastoreType.OPERATIONAL, NCC_IID);
-	            t.submit().get(); // FIXME: This call should not be blocking.
-	       }
+		   
+//	       if (dataProvider != null) {
+//				   
+//				WriteTransaction t = dataProvider.newWriteOnlyTransaction();
+//				t.delete(LogicalDatastoreType.OPERATIONAL, NCC_IID);
+//	            
+//	            // Non-blocking delete from operational datastore
+//				Futures.addCallback(t.submit(), new FutureCallback<Void>() {
+//					@Override
+//				    public void onSuccess( final Void result ) {
+//				        LOG.debug( "Delete LispDeviceNetconfConnector commit result: " + result );
+//				    }
+//				
+//				    @Override
+//				    public void onFailure( final Throwable t ) {
+//				        LOG.error( "Delete of LispDeviceNetconfConnector failed", t );
+//				    }
+//				});
+//	       }
 	   }
-	   
-	   private void updateStatus() {
-		   LOG.info("updating status of lisp netconf connector");
-	        if (dataProvider != null) {
-	            WriteTransaction tx = dataProvider.newWriteOnlyTransaction();
-	            tx.put(LogicalDatastoreType.OPERATIONAL, NCC_IID, buildNcConnector());
-
-	            try {
-	                tx.submit().get();
-	            } catch (InterruptedException | ExecutionException e) {
-	                LOG.warn("Failed to update connector status, operational otherwise", e);
-	            }
-	        } else {
-	            LOG.trace("No data provider configured, not updating status");
-	        }
-	   }  
 	   
 	    private RpcError makeNCCInUseError() {
 	        return RpcResultBuilder.newWarning( ErrorType.APPLICATION, "in-use",
@@ -110,7 +107,7 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 		        
 	            if (currentTask != null) {
 	                // return an error since we are already doing some work.
-	                LOG.debug( "LispNetconfConnector busy" );
+	                LOG.debug( "LispDeviceNetconfConnector busy" );
                 
 	                return Futures.immediateFailedCheckedFuture(
 	                		new TransactionCommitFailedException("", makeNCCInUseError() ) );
@@ -121,7 +118,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            }
 	        }
 	        
-	        updateStatus();
 	        return currentTask;
 	    }
 	    
@@ -168,8 +164,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	                currentTask = null;
 	            }
 
-	            updateStatus();
-
 	            LOG.debug("Connector {} built", req.getInstance());
 
 	            return RpcResultBuilder.<Void> success().build();
@@ -185,7 +179,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	        
 	        @Override
 	        public RpcResult<Void> call() {
-	        	LOG.debug("Called Remove connector RPC \n");
 	            try {
 	            	nconfConnector.removeNetconfConnector(req.getInstance());
 	            } catch( InstanceNotFoundException e ) {
@@ -195,8 +188,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            synchronized (taskLock) {
 	                currentTask = null;
 	            }
-
-	            updateStatus();
 
 	            LOG.debug("Connector {} removed", req.getInstance());
 

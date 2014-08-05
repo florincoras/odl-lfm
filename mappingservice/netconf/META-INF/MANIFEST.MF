@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1407228770991
+Bnd-LastModified: 1407251687356
 Build-Jdk: 1.7.0_65
 Built-By: fcoras
 Bundle-ManifestVersion: 2
@@ -20,57 +20,58 @@ Export-Package: org.opendaylight.lispflowmapping.mappingservice.netconf.
  ng.md.sal.connector.netconf";version="1.1.11.SNAPSHOT",org.opendaylight
  .lispflowmapping.config.yang.mappingservice.netconf.impl;uses:="org.ope
  ndaylight.yangtools.yang.binding.annotations,org.opendaylight.controlle
- r.config.yang.md.sal.binding,org.opendaylight.controller.md.sal.binding
- .api,org.opendaylight.controller.config.api,org.opendaylight.controller
- .sal.binding.api,org.opendaylight.controller.config.spi,org.opendayligh
- t.controller.config.api.annotations,javax.management,org.slf4j,org.osgi
- .framework,org.opendaylight.lispflowmapping.mappingservice.netconf.impl
+ r.config.yang.md.sal.binding,org.opendaylight.controller.config.api,org
+ .opendaylight.controller.sal.binding.api,org.opendaylight.controller.co
+ nfig.spi,javax.management,org.opendaylight.controller.config.api.annota
+ tions,org.slf4j,org.osgi.framework,org.opendaylight.lispflowmapping.map
+ pingservice.netconf.impl,org.opendaylight.yang.gen.v1.urn.opendaylight.
+ params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706,o
+ rg.opendaylight.yangtools.yang.binding";version="1.1.11.SNAPSHOT",org.o
+ pendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.
+ config.mappingservice.netconf.rev140706;uses:="org.opendaylight.yangtoo
+ ls.yang.binding,org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yan
+ g.ietf.inet.types.rev100924,com.google.common.collect,org.opendaylight.
+ yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev13
+ 0405,org.opendaylight.yangtools.yang.common";version="1.1.11.SNAPSHOT",
+ org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.contro
+ ller.config.mappingservice.netconf.impl.rev140706;uses:="org.opendaylig
+ ht.yangtools.yang.binding,com.google.common.collect,org.opendaylight.ya
+ ng.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.md.sal.binding
+ .rev131028,org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.
+ yang.controller.config.rev130405,org.opendaylight.yangtools.yang.common
+ ";version="1.1.11.SNAPSHOT",org.opendaylight.yang.gen.v1.urn.opendaylig
+ ht.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev
+ 140706.modules.module.configuration;uses:="org.opendaylight.yang.gen.v1
+ .urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.module
+ s.module,org.opendaylight.yangtools.yang.binding,org.opendaylight.yang.
+ gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingser
+ vice.netconf.impl.rev140706.modules.module.configuration.msncc.provider
+ .impl,org.opendaylight.yangtools.yang.common";version="1.1.11.SNAPSHOT"
  ,org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.contr
- oller.config.mappingservice.netconf.rev140706,org.opendaylight.yangtool
- s.yang.binding";version="1.1.11.SNAPSHOT",org.opendaylight.yang.gen.v1.
- urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.ne
- tconf.rev140706;uses:="org.opendaylight.yangtools.yang.binding,org.open
- daylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types.rev100
- 924,com.google.common.collect,org.opendaylight.yang.gen.v1.urn.opendayl
- ight.params.xml.ns.yang.controller.config.rev130405,org.opendaylight.ya
- ngtools.yang.common";version="1.1.11.SNAPSHOT",org.opendaylight.yang.ge
- n.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservi
- ce.netconf.impl.rev140706;uses:="org.opendaylight.yangtools.yang.bindin
- g,org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.cont
- roller.md.sal.binding.rev131028,com.google.common.collect,org.opendayli
- ght.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.r
- ev130405,org.opendaylight.yangtools.yang.common";version="1.1.11.SNAPSH
- OT",org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.co
- ntroller.config.mappingservice.netconf.impl.rev140706.modules.module.co
- nfiguration;uses:="org.opendaylight.yang.gen.v1.urn.opendaylight.params
- .xml.ns.yang.controller.config.rev130405.modules.module,org.opendayligh
- t.yangtools.yang.binding,org.opendaylight.yang.gen.v1.urn.opendaylight.
- params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140
- 706.modules.module.configuration.msncc.provider.impl,org.opendaylight.y
- angtools.yang.common";version="1.1.11.SNAPSHOT",org.opendaylight.yang.g
- en.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingserv
- ice.netconf.impl.rev140706.modules.module.configuration.msncc.provider.
- impl;uses:="org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns
- .yang.controller.config.rev130405,org.opendaylight.yangtools.yang.bindi
- ng,org.opendaylight.yangtools.yang.common";version="1.1.11.SNAPSHOT"
+ oller.config.mappingservice.netconf.impl.rev140706.modules.module.confi
+ guration.msncc.provider.impl;uses:="org.opendaylight.yang.gen.v1.urn.op
+ endaylight.params.xml.ns.yang.controller.config.rev130405,org.opendayli
+ ght.yangtools.yang.binding,org.opendaylight.yangtools.yang.common";vers
+ ion="1.1.11.SNAPSHOT"
 Import-Package: com.google.common.collect;version="[14.0,15)",com.google
  .common.util.concurrent;version="[14.0,15)",javax.management,org.openda
  ylight.controller.config.api;version="[0.2,1)",org.opendaylight.control
  ler.config.api.annotations;version="[0.2,1)",org.opendaylight.controlle
  r.config.api.jmx;version="[0.2,1)",org.opendaylight.controller.config.s
  pi;version="[0.2,1)",org.opendaylight.controller.config.yang.md.sal.bin
- ding,org.opendaylight.controller.config.yang.md.sal.connector.netconf,o
- rg.opendaylight.controller.md.sal.binding.api,org.opendaylight.controll
- er.md.sal.common.api.data,org.opendaylight.controller.sal.binding.api,o
- rg.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ietf.inet.types
- .rev100924;version="[2010.9,2011)",org.opendaylight.yang.gen.v1.urn.ope
- ndaylight.params.xml.ns.yang.controller.config.rev130405;version="[0.2,
- 1)",org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.co
- ntroller.config.rev130405.modules.module;version="[0.2,1)",org.opendayl
- ight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.md.sal.
- binding.rev131028,org.opendaylight.yangtools.yang.binding;version="[0.6
- ,1)",org.opendaylight.yangtools.yang.binding.annotations;version="[0.6,
- 1)",org.opendaylight.yangtools.yang.common;version="[0.6,1)",org.osgi.f
- ramework;version="[1.7,2)",org.osgi.util.tracker;version="[1.5,2)",org.
- slf4j;version="[1.7,2)"
+ ding;version="[1.1,2)",org.opendaylight.controller.config.yang.md.sal.c
+ onnector.netconf;version="[1.1,2)",org.opendaylight.controller.md.sal.b
+ inding.api;version="[1.1,2)",org.opendaylight.controller.md.sal.common.
+ api.data;version="[1.1,2)",org.opendaylight.controller.sal.binding.api;
+ version="[1.1,2)",org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.y
+ ang.ietf.inet.types.rev100924;version="[2010.9,2011)",org.opendaylight.
+ yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev13
+ 0405;version="[0.2,1)",org.opendaylight.yang.gen.v1.urn.opendaylight.pa
+ rams.xml.ns.yang.controller.config.rev130405.modules.module;version="[0
+ .2,1)",org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang
+ .controller.md.sal.binding.rev131028;version="[1.1,2)",org.opendaylight
+ .yangtools.yang.binding;version="[0.6,1)",org.opendaylight.yangtools.ya
+ ng.binding.annotations;version="[0.6,1)",org.opendaylight.yangtools.yan
+ g.common;version="[0.6,1)",org.osgi.framework;version="[1.7,2)",org.osg
+ i.util.tracker;version="[1.5,2)",org.slf4j;version="[1.7,2)"
 Tool: Bnd-1.50.0

@@ -30,8 +30,8 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
         final LispDeviceNetconfConnector lnconfConnector = new LispDeviceNetconfConnector();
 
         // Register to md-sal
-        DataBroker dataBrokerService = getDataBrokerDependency();
-        lnconfConnector.setDataProvider(dataBrokerService);
+//        DataBroker dataBrokerService = getDataBrokerDependency();
+//        lnconfConnector.setDataProvider(dataBrokerService);
 
         final BindingAwareBroker.RpcRegistration<LfmNetconfConnectorService> rpcRegistration = getRpcRegistryDependency()
                 .addRpcImplementation(LfmNetconfConnectorService.class, lnconfConnector);
