@@ -1,6 +1,5 @@
 package org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl;
 
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl.MsNCCProviderModule;
 import org.opendaylight.lispflowmapping.mappingservice.netconf.impl.LispDeviceNetconfConnector;
@@ -28,10 +27,6 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
     public java.lang.AutoCloseable createInstance() {
     	
         final LispDeviceNetconfConnector lnconfConnector = new LispDeviceNetconfConnector();
-
-        // Register to md-sal
-//        DataBroker dataBrokerService = getDataBrokerDependency();
-//        lnconfConnector.setDataProvider(dataBrokerService);
 
         final BindingAwareBroker.RpcRegistration<LfmNetconfConnectorService> rpcRegistration = getRpcRegistryDependency()
                 .addRpcImplementation(LfmNetconfConnectorService.class, lnconfConnector);
