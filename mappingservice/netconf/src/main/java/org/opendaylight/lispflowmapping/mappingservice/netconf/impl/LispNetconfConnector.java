@@ -75,17 +75,10 @@ public class LispNetconfConnector {
         }
 	}
 	
-	public void removeNetconfConnector(String instanceName) throws InstanceNotFoundException {
+	public void removeNetconfConnector(String instanceName) throws InstanceNotFoundException, ValidationException, ConflictingVersionException {
         ConfigTransactionJMXClient transaction = configRegistryClient.createTransaction();
-        transaction.destroyModule(NetconfConnectorModuleFactory.NAME, instanceName);
-        
-        try {
-        	transaction.commit();
-        } catch (ValidationException e1) {
-            LOG.error("Failed to validate NetconfConnectorModule transaction:", e1.getStackTrace().toString() );
-        } catch (ConflictingVersionException e) {
-        	LOG.error("NetconfConnectorModule conflicting version:", e.getStackTrace().toString() );
-        } 
+    	transaction.destroyModule(NetconfConnectorModuleFactory.NAME, instanceName);
+    	transaction.commit();
 	}
 	
 	// Lookup sal-netconf-connector dependencies using a ConfigTransactionJMXClient and configure them
@@ -136,6 +129,7 @@ public class LispNetconfConnector {
         
 	}
 	
+	// Uses a transaction to find the ObjectName of an already instantiated module. 
 	private ObjectName findConfigBean(String name, ConfigTransactionJMXClient transaction) {
     	Set<ObjectName> set = transaction.lookupConfigBeans(name);
     	if (set.size() > 0) {

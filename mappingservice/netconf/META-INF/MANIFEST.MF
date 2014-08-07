@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1407252277753
+Bnd-LastModified: 1407376731665
 Build-Jdk: 1.7.0_65
 Built-By: fcoras
 Bundle-ManifestVersion: 2
@@ -11,9 +11,9 @@ Created-By: Apache Maven Bundle Plugin
 Export-Package: org.opendaylight.lispflowmapping.mappingservice.netconf.
  impl;uses:="org.opendaylight.yang.gen.v1.urn.ietf.params.xml.ns.yang.ie
  tf.inet.types.rev100924,org.opendaylight.yang.gen.v1.urn.opendaylight.p
- arams.xml.ns.yang.controller.config.mappingservice.netconf.rev140706,ja
- vax.management,org.opendaylight.yangtools.yang.common,org.slf4j,com.goo
- gle.common.util.concurrent,org.opendaylight.controller.md.sal.common.ap
+ arams.xml.ns.yang.controller.config.mappingservice.netconf.rev140706,co
+ m.google.common.util.concurrent,javax.management,org.opendaylight.yangt
+ ools.yang.common,org.slf4j,org.opendaylight.controller.md.sal.common.ap
  i.data,org.opendaylight.controller.config.api,org.opendaylight.controll
  er.config.api.jmx,org.opendaylight.controller.config.yang.md.sal.connec
  tor.netconf";version="1.1.11.SNAPSHOT",org.opendaylight.lispflowmapping
