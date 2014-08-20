@@ -1,7 +1,7 @@
 module lfm-netconf-connector {
     yang-version 1; 
 
-    namespace "urn:opendaylight:params:xml:ns:yang:controller:config:mappingservice:netconf";
+    namespace "urn:opendaylight:params:xml:ns:yang:lispflowmapping:netconf";
     prefix "lnc";
 
     import config { prefix config; revision-date 2013-04-05; }

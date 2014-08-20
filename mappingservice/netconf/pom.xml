@@ -121,17 +121,17 @@
 						<Bundle-Activator>org.opendaylight.lispflowmapping.mappingservice.netconf.osgi.LispDeviceNetconfConnector</Bundle-Activator>
 						-->
 						<Private-Package>
-							org.opendaylight.lispflowmapping.mappingservice.netconf.*,
-							org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl.*,
-							org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.*,
+							org.opendaylight.lispflowmapping.netconf.*,
+							org.opendaylight.lispflowmapping.config.yang.netconf.impl.*,
+							org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.rev140706.*,
 							org.opendaylight.controller.config.util.*,
 						</Private-Package>
 						<Import-Package>*</Import-Package>
 						<Export-Package>
 							org.opendaylight.lispflowmapping.mappingservice.netconf.impl,
 							org.opendaylight.lispflowmapping.config.yang.mappingservice.netconf.impl,
-							org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.rev140706.*,
-							org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.mappingservice.netconf.impl.rev140706.*,
+							org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.rev140706.*,
+							org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.*,
                    		</Export-Package>
 					</instructions>
 				</configuration>
@@ -160,7 +160,7 @@
 									<codeGeneratorClass>org.opendaylight.controller.config.yangjmxgenerator.plugin.JMXGenerator</codeGeneratorClass>
 									<outputBaseDir>${jmxGeneratorPath}</outputBaseDir>
 									<additionalConfiguration>
-										<namespaceToPackage1>urn:opendaylight:params:xml:ns:yang:controller:config==org.opendaylight.lispflowmapping.config.yang</namespaceToPackage1>
+										<namespaceToPackage1>urn:opendaylight:params:xml:ns:yang:lispflowmapping==org.opendaylight.lispflowmapping.config.yang</namespaceToPackage1>
 										<namespaceToPackage2>urn:opendaylight:params:xml:ns:yang:controller==org.opendaylight.controller.config.yang</namespaceToPackage2>
 									</additionalConfiguration>
 								</generator>
