@@ -26,7 +26,7 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
     @Override
     public java.lang.AutoCloseable createInstance() {
 
-        final LispDeviceNetconfConnector lnconfConnector = new LispDeviceNetconfConnector();
+        final LispDeviceNetconfConnector lnconfConnector = LispDeviceNetconfConnector.createLispDeviceNetconfConnector();
 
         final BindingAwareBroker.RpcRegistration<LfmNetconfConnectorService> rpcRegistration = getRpcRegistryDependency()
                 .addRpcImplementation(LfmNetconfConnectorService.class, lnconfConnector);

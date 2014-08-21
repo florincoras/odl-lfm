@@ -32,9 +32,13 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	   private final ExecutorService executor;
 	   private LispNetconfConnector nconfConnector;
 
-	   public LispDeviceNetconfConnector() {
-		   executor = Executors.newFixedThreadPool(1);
-		   nconfConnector = new LispNetconfConnector();
+	   public static LispDeviceNetconfConnector createLispDeviceNetconfConnector() {
+		   return new LispDeviceNetconfConnector(Executors.newFixedThreadPool(1), new LispNetconfConnector());
+	   }
+
+	   public LispDeviceNetconfConnector(ExecutorService executor, LispNetconfConnector nconfConnector) {
+		   this.executor = executor;
+		   this.nconfConnector = nconfConnector;
 		   LOG.info( "LispDeviceNetconfConnector constructed" );
 	   }
 
