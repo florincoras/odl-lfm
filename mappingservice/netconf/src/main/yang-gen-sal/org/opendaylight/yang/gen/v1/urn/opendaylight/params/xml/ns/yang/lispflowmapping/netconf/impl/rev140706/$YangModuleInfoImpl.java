@@ -9,10 +9,10 @@ public final class $YangModuleInfoImpl implements YangModuleInfo {
 
     private static final YangModuleInfo INSTANCE = new $YangModuleInfoImpl();
 
-    private final String name = "msncc-provider-impl";
+    private final String name = "lfm-ncc-provider-impl";
     private final String namespace = "urn:opendaylight:params:xml:ns:yang:lispflowmapping:netconf:impl";
     private final String revision = "2014-07-06";
-    private final String resourcePath = "/META-INF/yang/msncc-provider-impl.yang";
+    private final String resourcePath = "/META-INF/yang/lfm-ncc-provider-impl.yang";
     
     private final Set<YangModuleInfo> importedModules;
 

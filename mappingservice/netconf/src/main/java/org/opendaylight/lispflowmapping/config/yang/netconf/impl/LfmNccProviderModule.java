@@ -1,20 +1,19 @@
 package org.opendaylight.lispflowmapping.config.yang.netconf.impl;
 
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.lispflowmapping.config.yang.netconf.impl.MsNCCProviderModule;
 import org.opendaylight.lispflowmapping.netconf.impl.LispDeviceNetconfConnector;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.rev140706.LfmNetconfConnectorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config.yang.netconf.impl.AbstractMsNCCProviderModule {
-	private static final Logger log = LoggerFactory.getLogger(MsNCCProviderModule.class);
+public class LfmNccProviderModule extends org.opendaylight.lispflowmapping.config.yang.netconf.impl.AbstractLfmNccProviderModule {
+	private static final Logger log = LoggerFactory.getLogger(LfmNccProviderModule.class);
 
-    public MsNCCProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
+	public LfmNccProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
     }
 
-    public MsNCCProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.lispflowmapping.config.yang.netconf.impl.MsNCCProviderModule oldModule, java.lang.AutoCloseable oldInstance) {
+    public LfmNccProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.lispflowmapping.config.yang.netconf.impl.LfmNccProviderModule oldModule, java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 
@@ -48,5 +47,6 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
         return ret;
 
     }
+
 
 }

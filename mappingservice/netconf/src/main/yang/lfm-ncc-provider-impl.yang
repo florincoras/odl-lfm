@@ -1,7 +1,7 @@
-module msncc-provider-impl {
+module lfm-ncc-provider-impl {
     yang-version 1;
     namespace "urn:opendaylight:params:xml:ns:yang:lispflowmapping:netconf:impl";
-    prefix "lfm-nc-impl";
+    prefix "lfm-ncc-provider-impl";
 
     import config { prefix config; revision-date 2013-04-05; }
     import opendaylight-md-sal-binding { prefix mdsal; revision-date 2013-10-28; }
@@ -14,14 +14,14 @@ module msncc-provider-impl {
             "Initial revision.";
     }
 
-    identity msncc-provider-impl {
+    identity lfm-ncc-provider-impl {
             base config:module-type;
-            config:java-name-prefix MsNCCProvider;
+            config:java-name-prefix LfmNccProvider;
     }
 
     augment "/config:modules/config:module/config:configuration" {
-        case msncc-provider-impl {
-            when "/config:modules/config:module/config:type = 'msncc-provider-impl'";
+        case lfm-ncc-provider-impl {
+            when "/config:modules/config:module/config:type = 'lfm-ncc-provider-impl'";
             
             container rpc-registry {
             	uses config:service-ref {

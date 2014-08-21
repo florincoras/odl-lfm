@@ -1,4 +1,4 @@
-package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl;
+package org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl;
 import java.util.Collections;
 import java.util.Map;
 import org.opendaylight.yangtools.yang.binding.DataObject;
@@ -7,15 +7,15 @@ import org.opendaylight.yangtools.yang.binding.Augmentation;
 
 
 /**
- * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry} instances.
- * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry
+ * Class that builds {@link org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry} instances.
+ * @see org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry
  */
 public class RpcRegistryBuilder {
 
     private java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> _type;
     private java.lang.Object _name;
 
-    private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> augmentation = new HashMap<>();
+    private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> augmentation = new HashMap<>();
 
     public RpcRegistryBuilder() {
     } 
@@ -67,7 +67,7 @@ public class RpcRegistryBuilder {
     }
     
     @SuppressWarnings("unchecked")
-    public <E extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> E getAugmentation(java.lang.Class<E> augmentationType) {
+    public <E extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> E getAugmentation(java.lang.Class<E> augmentationType) {
         if (augmentationType == null) {
             throw new IllegalArgumentException("Augmentation Type reference cannot be NULL!");
         }
@@ -84,7 +84,7 @@ public class RpcRegistryBuilder {
         return this;
     }
     
-    public RpcRegistryBuilder addAugmentation(java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> augmentationType, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry> augmentation) {
+    public RpcRegistryBuilder addAugmentation(java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> augmentationType, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry> augmentation) {
         this.augmentation.put(augmentationType, augmentation);
         return this;
     }
@@ -95,14 +95,14 @@ public class RpcRegistryBuilder {
 
     private static final class RpcRegistryImpl implements RpcRegistry {
 
-        public java.lang.Class<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry> getImplementedInterface() {
-            return org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry.class;
+        public java.lang.Class<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry> getImplementedInterface() {
+            return org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry.class;
         }
 
         private final java.lang.Class<? extends org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServiceType> _type;
         private final java.lang.Object _name;
 
-        private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> augmentation = new HashMap<>();
+        private Map<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> augmentation = new HashMap<>();
 
         private RpcRegistryImpl(RpcRegistryBuilder base) {
             this._type = base.getType();
@@ -112,8 +112,8 @@ public class RpcRegistryBuilder {
                     this.augmentation = Collections.emptyMap();
                     break;
                     case 1:
-                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> e = base.augmentation.entrySet().iterator().next();
-                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>singletonMap(e.getKey(), e.getValue());       
+                        final Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> e = base.augmentation.entrySet().iterator().next();
+                        this.augmentation = Collections.<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>>singletonMap(e.getKey(), e.getValue());       
                     break;
                 default :
                     this.augmentation = new HashMap<>(base.augmentation);
@@ -132,7 +132,7 @@ public class RpcRegistryBuilder {
         
         @SuppressWarnings("unchecked")
         @Override
-        public <E extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> E getAugmentation(java.lang.Class<E> augmentationType) {
+        public <E extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> E getAugmentation(java.lang.Class<E> augmentationType) {
             if (augmentationType == null) {
                 throw new IllegalArgumentException("Augmentation Type reference cannot be NULL!");
             }
@@ -157,10 +157,10 @@ public class RpcRegistryBuilder {
             if (!(obj instanceof DataObject)) {
                 return false;
             }
-            if (!org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry.class.equals(((DataObject)obj).getImplementedInterface())) {
+            if (!org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry.class.equals(((DataObject)obj).getImplementedInterface())) {
                 return false;
             }
-            org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry other = (org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry)obj;
+            org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry other = (org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry)obj;
             if (_type == null) {
                 if (other.getType() != null) {
                     return false;
@@ -187,7 +187,7 @@ public class RpcRegistryBuilder {
                 }
             } else {
                 // Hard case: compare our augments with presence there...
-                for (Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.msncc.provider.impl.RpcRegistry>> e : augmentation.entrySet()) {
+                for (Map.Entry<java.lang.Class<? extends Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>>, Augmentation<org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.impl.rev140706.modules.module.configuration.lfm.ncc.provider.impl.RpcRegistry>> e : augmentation.entrySet()) {
                     if (!e.getValue().equals(other.getAugmentation(e.getKey()))) {
                         return false;
                     }
