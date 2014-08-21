@@ -26,37 +26,37 @@ import org.slf4j.LoggerFactory;
 
 public class LispNetconfConnector {
     private ConfigRegistryJMXClient configRegistryClient;
-    
+
 	private static final Logger LOG = LoggerFactory.getLogger(LispNetconfConnector.class);
 
     private MBeanServer platformMBeanServer;
-	
+
 	public LispNetconfConnector() {
-		
+
 		// Obtain the platform's MBeanServer (should've been previously created)
 		// and create a ConfigRegistry JMX client via which modules can be created
 		// and destroyed
 		platformMBeanServer = ManagementFactory.getPlatformMBeanServer();
 		configRegistryClient = new ConfigRegistryJMXClient(platformMBeanServer);
-		
+
 	}
-	
+
 	// Build a sal-netconf-connector to specified device. Module instantiation and dependency resolution
-	// are done via a JMX ConfigTransactionClient 
+	// are done via a JMX ConfigTransactionClient
 	public void createNetconfConnector(String instanceName, Host host, Integer port, String username, String password) throws InstanceAlreadyExistsException, ConflictingVersionException, ValidationException {
-		
+
         ConfigTransactionJMXClient transaction = configRegistryClient.createTransaction();
-        
+
         if (transaction == null) {
         	LOG.error("Could not create transaction with ConfigRegistry! Cannot build NETCONF connector!");
         	return;
         }
-        
-        // create sal-netconf-connector module and via an mxBean configure all 
+
+        // create sal-netconf-connector module and via an mxBean configure all
         // yang defined parameters
         ObjectName connName = transaction.createModule(NetconfConnectorModuleFactory.NAME, instanceName);
         NetconfConnectorModuleMXBean mxBean = transaction.newMXBeanProxy(connName, NetconfConnectorModuleMXBean.class);
-        
+
         mxBean.setAddress(host);
         mxBean.setPassword(password);
         mxBean.setPort(new PortNumber(port));
@@ -67,21 +67,22 @@ public class LispNetconfConnector {
         	LOG.error("Failed to solve dependencies! Aborting!");
         	return;
         }
-        
-        transaction.commit();	                
+
+        transaction.commit();
 
 	}
-	
+
 	public void removeNetconfConnector(String instanceName) throws InstanceNotFoundException, ValidationException, ConflictingVersionException {
         ConfigTransactionJMXClient transaction = configRegistryClient.createTransaction();
     	transaction.destroyModule(NetconfConnectorModuleFactory.NAME, instanceName);
     	transaction.commit();
 	}
-	
+
 	// Lookup sal-netconf-connector dependencies using a ConfigTransactionJMXClient and configure them
-	// for the module we are about to instantiate. 
+	// for the module we are about to instantiate. Note that as long as the netconf module in configuration/initial
+	// is loaded, all of dependencies should be solvable
 	private boolean solveDependencies(ConfigTransactionJMXClient transaction, NetconfConnectorModuleMXBean mxBean) {
-		
+
     	ObjectName bindingBrokerRegistry = findConfigBean(BindingBrokerImplModuleFactory.NAME, transaction);
     	if (bindingBrokerRegistry != null ) {
     		mxBean.setBindingRegistry(bindingBrokerRegistry);
@@ -97,7 +98,7 @@ public class LispNetconfConnector {
         	LOG.debug("No DomRegistryBroker instance found");
         	return false;
         }
-        
+
         ObjectName eventExecutor = findConfigBean(GlobalEventExecutorModuleFactory.NAME, transaction);
         if (eventExecutor != null) {
             mxBean.setEventExecutor(eventExecutor);
@@ -105,7 +106,7 @@ public class LispNetconfConnector {
         	LOG.debug("No EventExecutor instance found");
         	return false;
         }
-        
+
         ObjectName threadpool = findConfigBean(FlexibleThreadPoolModuleFactory.NAME, transaction);
         if (threadpool != null) {
             mxBean.setProcessingExecutor(threadpool);
@@ -113,7 +114,7 @@ public class LispNetconfConnector {
         	LOG.debug("No ThreadPool instance found");
         	return false;
         }
-        
+
         ObjectName clientDispatcher = findConfigBean(NetconfClientDispatcherModuleFactory.NAME, transaction);
         if (clientDispatcher != null) {
             mxBean.setClientDispatcher(clientDispatcher);
@@ -121,12 +122,12 @@ public class LispNetconfConnector {
         	LOG.debug("No ClientDispatcher instance found");
         	return false;
         }
-        
+
         return true;
-        
+
 	}
-	
-	// Uses a transaction to find the ObjectName of an already instantiated module. 
+
+	// Uses a transaction to find the ObjectName of an already instantiated module.
 	private ObjectName findConfigBean(String name, ConfigTransactionJMXClient transaction) {
     	Set<ObjectName> set = transaction.lookupConfigBeans(name);
     	if (set.size() > 0) {
@@ -135,6 +136,6 @@ public class LispNetconfConnector {
     		return null;
     	}
 	}
-	
-	
+
+
 }

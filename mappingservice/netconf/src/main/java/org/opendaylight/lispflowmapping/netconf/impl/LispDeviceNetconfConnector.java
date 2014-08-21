@@ -14,17 +14,14 @@ import org.opendaylight.lispflowmapping.netconf.impl.LispNetconfConnector;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.rev140706.BuildConnectorInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.rev140706.LfmNetconfConnectorService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.lispflowmapping.netconf.rev140706.RemoveConnectorInput;
-import org.opendaylight.yangtools.yang.common.RpcError;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcError.ErrorType;
 import org.opendaylight.controller.config.api.ConflictingVersionException;
 import org.opendaylight.controller.config.api.ValidationException;
-import org.opendaylight.controller.md.sal.common.api.data.TransactionCommitFailedException;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 
 
@@ -34,11 +31,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	   private final ExecutorService executor;
 	   private LispNetconfConnector nconfConnector;
-
-	    // We are using multiple threads here. Therefore we need to be careful about concurrency.
-	    // In this case we use the taskLock to provide synchronization for the current task.
-	    private volatile Future<RpcResult<Void>> currentTask;
-	    private final Object taskLock = new Object();
 
 	   public LispDeviceNetconfConnector() {
 		   executor = Executors.newFixedThreadPool(1);
@@ -54,10 +46,6 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 		   executor.shutdown();
 	   }
 
-	    private RpcError makeNCCInUseError() {
-	        return RpcResultBuilder.newWarning( ErrorType.APPLICATION, "in-use",
-	                "LispNetconfConnector busy", null, null, null );
-	    }
 
 	    /**
 	     * RestConf RPC call implemented from the LfmNetconfConnectorService interface.
@@ -72,24 +60,8 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	        	return futureResult;
 	        }
 
-	        synchronized (taskLock) {
-		        if (currentTask != null && currentTask.isDone()) {
-		        	currentTask = null;
-		        }
+	        return executor.submit(new MakeConnector(input));
 
-	            if (currentTask != null) {
-	                // Return an error since we are already doing some work.
-	                LOG.debug( "LispDeviceNetconfConnector busy" );
-	                return Futures.immediateFailedCheckedFuture(
-	                		new TransactionCommitFailedException("", makeNCCInUseError() ) );
-	            } else {
-	                // Move the actual call to another thread,
-	                // allowing this thread to return immediately.
-	                currentTask = executor.submit(new MakeConnector(input, futureResult));
-	            }
-	        }
-
-	        return futureResult;
 	    }
 
 	    @Override
@@ -100,23 +72,8 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	    		return futureResult;
 	    	}
 
-	    	synchronized (taskLock) {
-		        if (currentTask != null && currentTask.isDone()) {
-		        	currentTask = null;
-		        }
+	    	return executor.submit(new RemoveConnector(input) );
 
-		        if (currentTask != null) {
-		        	LOG.warn("LispDeviceNetconfConnector busy");
-	                return Futures.immediateFailedCheckedFuture(
-	                		new TransactionCommitFailedException("", makeNCCInUseError() ) );
-		        } else {
-	                // Move the actual call to another thread,
-	                // allowing this thread to return immediately.
-		        	currentTask = executor.submit(new RemoveConnector(input, futureResult) );
-		        }
-	    	}
-
-	    	return futureResult;
 	    }
 
 	    private boolean verifyBuildInput(final BuildConnectorInput req, SettableFuture<RpcResult<Void>> futureResult ) {
@@ -179,11 +136,9 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	    private class MakeConnector implements Callable<RpcResult<Void>> {
 
 	        final BuildConnectorInput req;
-	        final SettableFuture<RpcResult<Void>> futureResult;
 
-	        public MakeConnector(final BuildConnectorInput conn, SettableFuture<RpcResult<Void>> futureResult) {
+	        public MakeConnector(final BuildConnectorInput conn) {
 	            this.req = conn;
-	            this.futureResult = futureResult;
 	        }
 
 	        @Override
@@ -193,26 +148,23 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            	nconfConnector.createNetconfConnector(req.getInstance(), req.getAddress(),
 	            			req.getPort().getValue(), req.getUsername(), req.getPassword());
 		            LOG.info("LispNetconfConnector {} built", req.getInstance());
-		            futureResult.set(RpcResultBuilder.<Void>success().build());
+		            return RpcResultBuilder.<Void>success().build();
 	            } catch( InstanceAlreadyExistsException e ) {
 	                LOG.error("LispNetconfConnector {} already exists!", req.getInstance());
-	                futureResult.set(RpcResultBuilder.<Void> failed()
+	                return RpcResultBuilder.<Void> failed()
 	                		.withError(ErrorType.APPLICATION, "exists", "LispNetconfConnector exists")
-	                		.build());
+	                		.build();
 	            } catch (ConflictingVersionException ex) {
 	            	LOG.error("LispNetconfConnector {} version exception", req.getInstance());
-	                futureResult.set(RpcResultBuilder.<Void> failed()
+	                return RpcResultBuilder.<Void> failed()
 	                		.withError(ErrorType.APPLICATION, "exception", "LispNetconfConnector version exception")
-	                		.build());
+	                		.build();
 	            } catch ( ValidationException ex) {
 	            	LOG.error("LispNetconfConnector {} validation exception", req.getInstance());
-	                futureResult.set(RpcResultBuilder.<Void> failed()
+	                return RpcResultBuilder.<Void> failed()
 	                		.withError(ErrorType.APPLICATION, "exception", "LispNetconfConnector validation exception")
-	                		.build());
+	                		.build();
 	            }
-
-
-		        return RpcResultBuilder.<Void> success().build();
 
 	        }
 
@@ -220,12 +172,9 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 
 	    private class RemoveConnector implements Callable<RpcResult<Void>> {
 	        final RemoveConnectorInput req;
-	        final SettableFuture<RpcResult<Void>> futureResult;
 
-
-	        public RemoveConnector(final RemoveConnectorInput conn, SettableFuture<RpcResult<Void>> futureResult) {
+	        public RemoveConnector(final RemoveConnectorInput conn) {
 	            this.req = conn;
-	            this.futureResult = futureResult;
 	        }
 
 	        @Override
@@ -233,31 +182,29 @@ public class LispDeviceNetconfConnector implements AutoCloseable, LfmNetconfConn
 	            try {
 	            	nconfConnector.removeNetconfConnector(req.getInstance());
 	            	LOG.info("LispNetconfConnector {} removed!", req.getInstance());
-	            	futureResult.set(RpcResultBuilder.<Void> success().build());
+	            	return RpcResultBuilder.<Void> success().build();
 	            } catch( InstanceNotFoundException e ) {
 	                LOG.info("LispNetconfConnector {} doesn't exists!", req.getInstance());
-	                futureResult.set(RpcResultBuilder.<Void> failed()
+	                return RpcResultBuilder.<Void> failed()
 	                		.withError(ErrorType.APPLICATION, "no-exist", "LispNetconfConnector doesn't exist")
-	                		.build());
+	                		.build();
 	            } catch( ValidationException e ) {
 	                LOG.info("LispNetconfConnector {}: Could not validate remove transactions!", req.getInstance());
-	                futureResult.set(RpcResultBuilder.<Void> failed()
+	                return RpcResultBuilder.<Void> failed()
 	                		.withError(ErrorType.APPLICATION, "fail", "LispNetconfConnector doesn't exist")
-	                		.build());
+	                		.build();
 	            } catch (ConflictingVersionException e) {
 	                LOG.error("LispNetconfConnector {}: Cannot remove due to conflicting version", req.getInstance() );
-	                futureResult.set(RpcResultBuilder.<Void> failed()
+	                return RpcResultBuilder.<Void> failed()
 	                		.withError(ErrorType.APPLICATION, "fail", "Conflicting version exception")
-	                		.build());
+	                		.build();
 	            } catch (Exception e) {
 	            	LOG.error("LispNetconfConnector {} exception while removing: {}", req.getInstance(), e.getClass());
-	            	futureResult.set(RpcResultBuilder.<Void> failed()
+	            	return RpcResultBuilder.<Void> failed()
 	            			.withError(ErrorType.APPLICATION, "fail", "Cannot remove: " + req.getInstance())
-	            			.build());
+	            			.build();
 	            }
 
-
-	            return RpcResultBuilder.<Void> success().build();
 	        }
 	    }
 	}
