@@ -22,17 +22,6 @@ module msncc-provider-impl {
     augment "/config:modules/config:module/config:configuration" {
         case msncc-provider-impl {
             when "/config:modules/config:module/config:type = 'msncc-provider-impl'";
-
-            //wires in the data-broker service 
-//            container data-broker {
-//                uses config:service-ref {
-//                    refine type {
-//                        mandatory false;
-//                        //config:required-identity mdsal:binding-data-broker;
-//                        config:required-identity mdsal:binding-async-data-broker;
-//                    }
-//                }
-//            }  
             
             container rpc-registry {
             	uses config:service-ref {
