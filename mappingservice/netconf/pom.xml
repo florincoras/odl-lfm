@@ -107,6 +107,13 @@
 		      <artifactId>sal-binding-config</artifactId>
 		      <version>1.1-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.opendaylight.yangtools</groupId>
+			<artifactId>mockito-configuration</artifactId>
+			<scope>test</scope>
+			<version>0.6.2-SNAPSHOT</version>
+		</dependency>
    
 	</dependencies>
 	<build>

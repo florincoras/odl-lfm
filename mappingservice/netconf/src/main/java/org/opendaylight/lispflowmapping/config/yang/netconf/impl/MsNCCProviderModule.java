@@ -44,7 +44,7 @@ public class MsNCCProviderModule extends org.opendaylight.lispflowmapping.config
         }
 
         AutoCloseable ret = new AutoCloseableNCC();
-        log.info("LISP NETCONF CONNECTOR provider (instance {}) initialized.", ret);
+        log.info("Lisp netconf connector provider (instance {}) initialized.", ret);
         return ret;
 
     }
