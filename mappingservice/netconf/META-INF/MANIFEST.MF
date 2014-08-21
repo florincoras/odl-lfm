@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1408657035900
+Bnd-LastModified: 1408662429523
 Build-Jdk: 1.7.0_65
 Built-By: fcoras
 Bundle-ManifestVersion: 2
